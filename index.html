@@ -98,7 +98,23 @@ footer{border-top:1px solid #1e2230;padding:32px 16px;margin-top:40px}
 .card{background:#0d0f15;border:1px solid #1e2230;padding:20px;position:relative;overflow:hidden;animation:fadeUp .5s ease both}
 .card:active{opacity:.9}
 
-/* ── COUNTDOWN BANNER ── */
+/* ── CAROUSEL ── */
+.carousel-wrap{position:relative;overflow:hidden}
+.carousel-track{display:flex;gap:16px;transition:transform .4s cubic-bezier(.25,.46,.45,.94);will-change:transform}
+.carousel-slide{flex:0 0 calc(85vw);max-width:320px;cursor:pointer}
+@media(min-width:641px){.carousel-slide{flex:0 0 340px;max-width:340px}}
+.carousel-img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:#0d0f15;border:1px solid #1e2230;position:relative;overflow:hidden}
+.carousel-img-placeholder{width:100%;aspect-ratio:16/10;background:#0d0f15;border:1px solid #1e2230;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#8a8a9a;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px}
+.carousel-info{padding:12px 0 4px}
+.carousel-name{font-weight:700;font-size:14px;margin-bottom:4px}
+.carousel-meta{font-size:11px;color:#8a8a9a;font-family:'DM Mono';display:flex;gap:12px;align-items:center}
+.carousel-dots{display:flex;gap:6px;justify-content:center;margin-top:16px}
+.carousel-dot{width:6px;height:6px;border-radius:50%;background:#1e2230;cursor:pointer;transition:all .2s}
+.carousel-dot.on{background:#00ff88;width:20px;border-radius:3px}
+.carousel-nav{display:flex;gap:8px;margin-top:16px;justify-content:flex-end}
+.carousel-nav button{background:#0d0f15;border:1px solid #1e2230;color:#e8e0d0;width:36px;height:36px;cursor:pointer;font-size:16px;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.carousel-nav button:hover{border-color:#00ff88;color:#00ff88}
+
 #promo-bar{background:linear-gradient(90deg,#ff4400,#ff6600);color:#fff;text-align:center;padding:10px 16px;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:1px;position:relative;z-index:99}
 #promo-bar strong{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;margin:0 4px}
 #countdown{font-weight:800;color:#fff;font-size:14px;letter-spacing:2px}
@@ -365,6 +381,85 @@ function mkCard(s,delay){
 }
 
 /* ── HOME ── */
+/* ── PORTFOLIO ── */
+// Edite aqui os seus projetos! Coloque a URL da imagem em "img" ou deixe "" para placeholder
+var PORTFOLIO_DEFAULT = [
+  {id:1, name:"Nay Galvao",        cat:"Site Institucional", img:"https://i.postimg.cc/wjYdJcH5/Captura-de-tela-2026-03-08-125045.png", url:"https://naygalvaofisioterpia.lovable.app/", color:"#4dabf7"},
+  {id:2, name:"Projeto 2",         cat:"Loja Virtual",      img:"", url:"", color:"#ff6b6b"},
+  {id:3, name:"Projeto 3",         cat:"Cardapio Digital",   img:"", url:"", color:"#69db7c"}
+];
+// so usa o default se NUNCA foi salvo antes (chave ausente no localStorage)
+var PORTFOLIO = localStorage.getItem("ds_portfolio") !== null ? loadLS("ds_portfolio") : PORTFOLIO_DEFAULT;
+
+var carouselIdx=0;
+
+function renderPortfolioSection(){
+  var slides="";
+  for(var i=0;i<PORTFOLIO.length;i++){
+    var p=PORTFOLIO[i];
+    var imgSrc = fixImgUrl(p.img);
+    var imgH = imgSrc
+      ? '<img src="'+imgSrc+'" class="carousel-img" alt="'+p.name+'" onerror="this.style.display=\'none\'">'
+      : '<div class="carousel-img-placeholder" style="border-color:'+p.color+'22">'
+        +'<div style="font-size:36px">🖥️</div>'
+        +'<div style="color:'+p.color+';font-weight:700;font-size:13px">'+p.name+'</div>'
+        +'<div style="font-size:10px;opacity:.6">Adicione a imagem</div>'
+        +'</div>';
+    var linkBtn = p.url ? '<a href="'+p.url+'" target="_blank" style="color:'+p.color+';text-decoration:none;font-size:11px;font-family:\'DM Mono\'">Ver site →</a>' : '';
+    slides+='<div class="carousel-slide">'
+      +imgH
+      +'<div class="carousel-info">'
+      +'<div class="carousel-name">'+p.name+'</div>'
+      +'<div class="carousel-meta"><span class="tag" style="background:'+p.color+'15;color:'+p.color+'">'+p.cat+'</span>'+linkBtn+'</div>'
+      +'</div></div>';
+  }
+  var dots="";
+  for(var i=0;i<PORTFOLIO.length;i++) dots+='<div class="carousel-dot'+(i===0?" on":"")+'" onclick="carouselGo('+i+')" id="cdot'+i+'"></div>';
+
+  return '<div style="padding:40px 16px">'
+    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px">'
+    +'<div><div class="tag" style="margin-bottom:8px">Meus projetos</div>'
+    +'<h2 class="sec-title" style="font-size:clamp(22px,4vw,40px);font-weight:800;letter-spacing:-1px">Ja fiz isso</h2></div>'
+    +'<div class="carousel-nav"><button onclick="carouselPrev()">‹</button><button onclick="carouselNext()">›</button></div>'
+    +'</div>'
+    +'<div class="carousel-wrap" id="carousel-wrap">'
+    +'<div class="carousel-track" id="carousel-track">'+slides+'</div>'
+    +'</div>'
+    +'<div class="carousel-dots" id="carousel-dots">'+dots+'</div>'
+    +'</div>';
+}
+
+function carouselGo(idx){
+  carouselIdx=idx;
+  var track=document.getElementById("carousel-track");
+  if(!track) return;
+  var slideW=track.children[0]?track.children[0].offsetWidth+16:300;
+  track.style.transform="translateX(-"+(idx*slideW)+"px)";
+  var dots=document.querySelectorAll(".carousel-dot");
+  for(var i=0;i<dots.length;i++) dots[i].classList.toggle("on",i===idx);
+}
+function carouselNext(){
+  carouselGo((carouselIdx+1)%PORTFOLIO.length);
+}
+function carouselPrev(){
+  carouselGo((carouselIdx-1+PORTFOLIO.length)%PORTFOLIO.length);
+}
+
+// touch/swipe support
+(function(){
+  var sx=0, dragging=false;
+  document.addEventListener("touchstart",function(e){
+    var el=document.getElementById("carousel-track"); if(!el) return;
+    if(!el.contains(e.target)) return;
+    sx=e.touches[0].clientX; dragging=true;
+  },{passive:true});
+  document.addEventListener("touchend",function(e){
+    if(!dragging) return; dragging=false;
+    var dx=e.changedTouches[0].clientX-sx;
+    if(Math.abs(dx)>40){ dx<0?carouselNext():carouselPrev(); }
+  },{passive:true});
+})();
+
 function renderHome(){
   var cards="";
   for(var i=0;i<4;i++) cards+=mkCard(SVC[i],i*70);
@@ -392,6 +487,7 @@ function renderHome(){
     +'</div>'
     +'<div class="cards-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px">'+cards+'</div>'
     +'</div>'
+    + renderPortfolioSection()
     +'<div style="padding:40px 16px;text-align:center">'
     +'<div style="background:#0d0f15;border:1px solid #00ff8820;padding:40px 24px;max-width:600px;margin:0 auto">'
     +'<div style="font-size:40px;margin-bottom:16px">💬</div>'
@@ -543,15 +639,20 @@ function startOrderChatListen(oid){
 }
 
 /* ── CHAT ── */
-var chatOpen=false, chatUser=localStorage.getItem("chat_name")||"";
+var chatOpen=false;
+var chatUser=localStorage.getItem("chat_name")||"";
+var chatEmail=localStorage.getItem("chat_email")||"";
 var chatSession=localStorage.getItem("chat_session")||"";
 var chatListening=false, lastMsgCount=0, adminChatListening=false;
 
-function makeSess(){
-  if(!chatSession){
-    chatSession="u_"+Date.now()+"_"+Math.random().toString(36).substr(2,5);
-    localStorage.setItem("chat_session",chatSession);
-  }
+function emailToSessId(email){
+  // convert email to safe firebase key: replace @ and . with _
+  return "email_"+email.toLowerCase().replace(/[^a-z0-9]/g,"_");
+}
+
+function makeSessFromEmail(email){
+  chatSession=emailToSessId(email);
+  localStorage.setItem("chat_session",chatSession);
 }
 
 function toggleChat(){
@@ -560,7 +661,7 @@ function toggleChat(){
   if(chatOpen){
     box.classList.add("open");
     document.getElementById("chat-notif").style.display="none";
-    if(!chatUser) renderChatName();
+    if(!chatEmail) renderChatName();
     else{renderChatMsgs();startListenChat();}
   } else {
     box.classList.remove("open");
@@ -570,19 +671,24 @@ function toggleChat(){
 function renderChatName(){
   document.getElementById("chat-body").innerHTML=
     '<div id="chat-name-screen">'
-    +'<p style="font-size:13px;color:#8a8a9a;font-family:\'DM Mono\';line-height:1.6">Ola! Como posso te chamar?</p>'
-    +'<input class="inp" id="cn-name" placeholder="Seu nome...">'
-    +'<input class="inp" id="cn-email" placeholder="Email (opcional)...">'
-    +'<button class="btn-p" style="width:100%;font-size:13px" onclick="setChatUser()">Comecar</button>'
+    +'<p style="font-size:13px;color:#8a8a9a;font-family:\'DM Mono\';line-height:1.6;margin-bottom:4px">Ola! Preencha para comecar.</p>'
+    +'<p style="font-size:11px;color:#8a8a9a;font-family:\'DM Mono\';line-height:1.6;margin-bottom:8px">Seu email identifica seu chat — voce pode continuar de qualquer dispositivo.</p>'
+    +'<input class="inp" id="cn-name" placeholder="Seu nome *">'
+    +'<input class="inp" id="cn-email" placeholder="Seu email *" type="email" style="margin-top:8px">'
+    +'<button class="btn-p" style="width:100%;font-size:13px;margin-top:10px" onclick="setChatUser()">Comecar</button>'
     +'</div>';
   setTimeout(function(){var e=document.getElementById("cn-name");if(e)e.focus();},100);
 }
 
 function setChatUser(){
-  var n=gv("cn-name"); if(!n){showToast("Digite seu nome!","#ff4466");return;}
-  chatUser=n; localStorage.setItem("chat_name",chatUser);
-  var em=gv("cn-email"); makeSess();
-  if(window._fbReady) window._fbSet(window._fbRef(window._fbDB,"sessions/"+chatSession),{name:chatUser,email:em,started:new Date().toLocaleString("pt-BR")});
+  var n=gv("cn-name"), em=gv("cn-email");
+  if(!n){showToast("Digite seu nome!","#ff4466");return;}
+  if(!em||em.indexOf("@")<0){showToast("Digite um email valido!","#ff4466");return;}
+  chatUser=n; chatEmail=em;
+  localStorage.setItem("chat_name",chatUser);
+  localStorage.setItem("chat_email",chatEmail);
+  makeSessFromEmail(chatEmail);
+  if(window._fbReady) window._fbSet(window._fbRef(window._fbDB,"sessions/"+chatSession),{name:chatUser,email:chatEmail,started:new Date().toLocaleString("pt-BR")});
   renderChatMsgs(); startListenChat();
 }
 
@@ -599,14 +705,16 @@ function renderChatMsgs(){
 
 function sendChatMsg(){
   if(!window._fbReady){showToast("Aguarde...","#ffaa00");return;}
-  makeSess(); var text=gv("chat-input"); if(!text) return;
-  window._fbPush(window._fbRef(window._fbDB,"chats/"+chatSession+"/messages"),{from:"client",name:chatUser,text:text,time:new Date().toLocaleString("pt-BR"),ts:Date.now()});
+  if(!chatSession) makeSessFromEmail(chatEmail);
+  var text=gv("chat-input"); if(!text) return;
+  window._fbPush(window._fbRef(window._fbDB,"chats/"+chatSession+"/messages"),{from:"client",name:chatUser,email:chatEmail,text:text,time:new Date().toLocaleString("pt-BR"),ts:Date.now()});
   var inp=document.getElementById("chat-input"); if(inp) inp.value="";
 }
 
 function startListenChat(){
   if(chatListening||!window._fbReady) return;
-  chatListening=true; makeSess();
+  chatListening=true;
+  if(!chatSession) makeSessFromEmail(chatEmail);
   window._fbOnValue(window._fbRef(window._fbDB,"chats/"+chatSession+"/messages"),function(snap){
     var msgs=[];
     if(snap.exists()) snap.forEach(function(c){msgs.push(c.val());});
@@ -663,20 +771,26 @@ function doLogout(){adminLogged=false;_adminUnlocked=false;updAdminBtn();renderA
 function renderDash(){
   var el=document.getElementById("pg-admin");
   var pending=0; for(var i=0;i<orders.length;i++) if(orders[i].status==="Aguardando") pending++;
-  var cC=adminTab==="chat"?"#00ff88":"#8a8a9a", cO=adminTab==="orders"?"#00ff88":"#8a8a9a";
-  var bC=adminTab==="chat"?"2px solid #00ff88":"2px solid transparent", bO=adminTab==="orders"?"2px solid #00ff88":"2px solid transparent";
+  var cC=adminTab==="chat"?"#00ff88":"#8a8a9a";
+  var cO=adminTab==="orders"?"#00ff88":"#8a8a9a";
+  var cP=adminTab==="portfolio"?"#00ff88":"#8a8a9a";
+  var bC=adminTab==="chat"?"2px solid #00ff88":"2px solid transparent";
+  var bO=adminTab==="orders"?"2px solid #00ff88":"2px solid transparent";
+  var bP=adminTab==="portfolio"?"2px solid #00ff88":"2px solid transparent";
   el.innerHTML='<div style="padding:28px 16px">'
     +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px">'
     +'<div><h2 style="font-size:22px;font-weight:800">Painel Admin 🔓</h2>'
     +'<p style="color:#8a8a9a;font-family:\'DM Mono\';font-size:11px">Bem-vindo, Matheus!</p></div>'
     +'<button class="btn-o" style="font-size:11px;padding:8px 16px" onclick="doLogout()">Sair</button></div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:24px">'
     +'<div style="background:#0d0f15;border:1px solid #1e2230;padding:16px"><div style="font-size:20px;margin-bottom:6px">🛒</div><div style="font-size:22px;font-weight:800">'+orders.length+'</div><div style="font-size:10px;color:#8a8a9a;text-transform:uppercase;letter-spacing:1px;font-family:\'DM Mono\'">Pedidos</div></div>'
     +'<div style="background:#0d0f15;border:1px solid #1e2230;padding:16px"><div style="font-size:20px;margin-bottom:6px">⏳</div><div style="font-size:22px;font-weight:800;color:'+(pending>0?"#ffaa00":"#e8e0d0")+'">'+pending+'</div><div style="font-size:10px;color:#8a8a9a;text-transform:uppercase;letter-spacing:1px;font-family:\'DM Mono\'">Pendentes</div></div>'
+    +'<div style="background:#0d0f15;border:1px solid #1e2230;padding:16px"><div style="font-size:20px;margin-bottom:6px">🖼️</div><div style="font-size:22px;font-weight:800">'+PORTFOLIO.length+'</div><div style="font-size:10px;color:#8a8a9a;text-transform:uppercase;letter-spacing:1px;font-family:\'DM Mono\'">Projetos</div></div>'
     +'</div>'
     +'<div style="display:flex;border-bottom:1px solid #1e2230;margin-bottom:24px;overflow-x:auto">'
-    +'<button style="background:none;border:none;font-family:\'Syne\';font-weight:700;font-size:12px;padding:10px 18px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;color:'+cC+';border-bottom:'+bC+';white-space:nowrap" onclick="switchTab(\'chat\')">💬 Chats</button>'
-    +'<button style="background:none;border:none;font-family:\'Syne\';font-weight:700;font-size:12px;padding:10px 18px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;color:'+cO+';border-bottom:'+bO+';white-space:nowrap" onclick="switchTab(\'orders\')">🛒 Pedidos</button>'
+    +'<button style="background:none;border:none;font-family:\'Syne\';font-weight:700;font-size:12px;padding:10px 16px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;color:'+cC+';border-bottom:'+bC+';white-space:nowrap" onclick="switchTab(\'chat\')">💬 Chats</button>'
+    +'<button style="background:none;border:none;font-family:\'Syne\';font-weight:700;font-size:12px;padding:10px 16px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;color:'+cO+';border-bottom:'+bO+';white-space:nowrap" onclick="switchTab(\'orders\')">🛒 Pedidos</button>'
+    +'<button style="background:none;border:none;font-family:\'Syne\';font-weight:700;font-size:12px;padding:10px 16px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;color:'+cP+';border-bottom:'+bP+';white-space:nowrap" onclick="switchTab(\'portfolio\')">🖼️ Portfolio</button>'
     +'</div>'
     +'<div id="tab-content"></div></div>';
   renderTab();
@@ -708,6 +822,52 @@ function startAdminListen(){
 
 function renderTab(){
   var el=document.getElementById("tab-content"); if(!el) return;
+
+  if(adminTab==="portfolio"){
+    var cats=["Loja Virtual","Site Institucional","Cardapio Digital","Portfolio","Agendamento","Site Imobiliario","Landing Page","Plataforma EAD","Outro"];
+    var colors=["#ff6b6b","#ffa94d","#ffe066","#69db7c","#38d9a9","#4dabf7","#da77f2","#f783ac","#a9e34b","#63e6be"];
+    var h='<div style="margin-bottom:20px">'
+      +'<h3 style="font-size:14px;font-weight:700;margin-bottom:16px;color:#00ff88">+ Novo projeto</h3>'
+      +'<div style="background:#0d0f15;border:1px solid #1e2230;padding:16px;display:flex;flex-direction:column;gap:10px">'
+      +mkF("pf-name","Nome do projeto *","text")
+      +'<div class="fld"><label class="lbl">Categoria</label><select id="pf-cat" class="inp"><option value="">Selecione...</option>';
+    for(var i=0;i<cats.length;i++) h+='<option value="'+cats[i]+'">'+cats[i]+'</option>';
+    h+='</select></div>'
+      +mkF("pf-img","URL da imagem (print do site)","url")
+      +mkF("pf-url","Link do site publicado","url")
+      +'<div class="fld"><label class="lbl">Cor do card</label><div style="display:flex;gap:8px;flex-wrap:wrap" id="pf-colors">';
+    for(var i=0;i<colors.length;i++){
+      h+='<div onclick="selectColor(\''+colors[i]+'\')" id="pfc'+i+'" style="width:28px;height:28px;border-radius:50%;background:'+colors[i]+';cursor:pointer;border:3px solid transparent;transition:all .2s" title="'+colors[i]+'"></div>';
+    }
+    h+='</div><input type="hidden" id="pf-color" value="'+colors[0]+'"></div>'
+      +'<button class="btn-p" style="font-size:12px;align-self:flex-start" onclick="addPortfolioItem()">Adicionar projeto</button>'
+      +'</div></div>';
+
+    h+='<h3 style="font-size:14px;font-weight:700;margin-bottom:12px">Projetos ('+PORTFOLIO.length+')</h3>';
+    if(PORTFOLIO.length===0){
+      h+='<p style="color:#8a8a9a;font-family:\'DM Mono\';font-size:13px">Nenhum projeto ainda.</p>';
+    }
+    for(var i=0;i<PORTFOLIO.length;i++){
+      var p=PORTFOLIO[i];
+      var preview=p.img?'<img src="'+fixImgUrl(p.img)+'" style="width:60px;height:40px;object-fit:cover;border:1px solid #1e2230;flex-shrink:0" onerror="this.style.display=\'none\'">'
+        :'<div style="width:60px;height:40px;background:'+p.color+'22;border:1px solid '+p.color+'33;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🖥️</div>';
+      h+='<div style="background:#0d0f15;border:1px solid #1e2230;border-left:3px solid '+p.color+';padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px">'
+        +preview
+        +'<div style="flex:1;min-width:0">'
+        +'<div style="font-weight:700;font-size:13px">'+p.name+'</div>'
+        +'<div style="font-size:11px;color:#8a8a9a;font-family:\'DM Mono\'">'+p.cat+'</div>'
+        +(p.url?'<div style="font-size:10px;color:#00ff88;font-family:\'DM Mono\';margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+p.url+'</div>':"")
+        +'</div>'
+        +'<div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">'
+        +'<button onclick="editPortfolioItem('+p.id+')" style="background:none;border:1px solid #1e2230;color:#8a8a9a;padding:4px 10px;cursor:pointer;font-family:\'Syne\';font-size:10px;font-weight:700;letter-spacing:1px">EDITAR</button>'
+        +'<button onclick="removePortfolioItem('+p.id+')" style="background:none;border:1px solid #ff446640;color:#ff4466;padding:4px 10px;cursor:pointer;font-family:\'Syne\';font-size:10px;font-weight:700;letter-spacing:1px">REMOVER</button>'
+        +'</div></div>';
+    }
+    el.innerHTML=h;
+    // highlight first color by default
+    selectColor(colors[0]);
+    return;
+  }
 
   if(adminTab==="chat"){
     if(!window._fbReady){el.innerHTML='<p style="color:#8a8a9a;font-family:\'DM Mono\';font-size:13px">Conectando...</p>';return;}
@@ -805,7 +965,7 @@ function sendAdminReply(sid, dbPath){
 
 /* ── FIREBASE CALLBACK ── */
 window._fbReadyCb=function(){
-  if(chatUser&&chatSession) startListenChat();
+  if(chatEmail){makeSessFromEmail(chatEmail); startListenChat();}
   if(adminLogged) startAdminListen();
 };
 
@@ -827,7 +987,85 @@ function logoTap(){
   }
 }
 
-/* ── ORDER STATUS ── */
+function fixImgUrl(url){
+  if(!url) return "";
+  // Google Drive: /file/d/ID/view -> thumbnail URL que nao bloqueia
+  var driveMatch = url.match(/\/file\/d\/([^\/\?]+)/);
+  if(driveMatch) return "https://drive.google.com/thumbnail?id="+driveMatch[1]+"&sz=w800";
+  // Imgur album -> nao conseguimos, retorna vazio
+  if(url.indexOf("imgur.com/a/")>-1) return "";
+  return url;
+}
+
+
+var selectedColor="#ff6b6b";
+function selectColor(c){
+  selectedColor=c;
+  var inp=document.getElementById("pf-color"); if(inp) inp.value=c;
+  var dots=document.querySelectorAll("[id^='pfc']");
+  for(var i=0;i<dots.length;i++){
+    dots[i].style.border=dots[i].style.background===c||dots[i].title===c?"3px solid #fff":"3px solid transparent";
+  }
+}
+
+function addPortfolioItem(){
+  var name=gv("pf-name"), cat=gv("pf-cat"), img=gv("pf-img"), url=gv("pf-url");
+  var color=document.getElementById("pf-color")?document.getElementById("pf-color").value:selectedColor;
+  if(!name){showToast("Digite o nome do projeto!","#ff4466");return;}
+  var item={id:Date.now(),name:name,cat:cat||"Outro",img:img,url:url,color:color||"#00ff88"};
+  PORTFOLIO.push(item);
+  saveLS("ds_portfolio",PORTFOLIO);
+  showToast("Projeto adicionado! Va a Home para ver no carrossel.","#00ff88");
+  renderDash();
+}
+
+function removePortfolioItem(id){
+  PORTFOLIO=PORTFOLIO.filter(function(p){return p.id!=id;});
+  saveLS("ds_portfolio",PORTFOLIO);
+  showToast("Projeto removido.","#ff4466");
+  renderDash();
+  if(currentPage==="home") renderHome();
+}
+
+function editPortfolioItem(id){
+  var p=null;
+  for(var i=0;i<PORTFOLIO.length;i++) if(PORTFOLIO[i].id==id){p=PORTFOLIO[i];break;}
+  if(!p) return;
+  // fill form fields with existing data
+  var fn=document.getElementById("pf-name"), fc=document.getElementById("pf-cat");
+  var fi=document.getElementById("pf-img"), fu=document.getElementById("pf-url");
+  if(fn) fn.value=p.name;
+  if(fc) fc.value=p.cat;
+  if(fi) fi.value=p.img;
+  if(fu) fu.value=p.url;
+  selectColor(p.color);
+  // change button to "Salvar edicao"
+  var btn=document.querySelector("[onclick='addPortfolioItem()']");
+  if(btn){
+    btn.textContent="Salvar edicao";
+    btn.setAttribute("onclick","savePortfolioEdit("+id+")");
+  }
+  window.scrollTo(0,0);
+}
+
+function savePortfolioEdit(id){
+  var name=gv("pf-name"), cat=gv("pf-cat"), img=gv("pf-img"), url=gv("pf-url");
+  var color=document.getElementById("pf-color")?document.getElementById("pf-color").value:selectedColor;
+  if(!name){showToast("Digite o nome!","#ff4466");return;}
+  for(var i=0;i<PORTFOLIO.length;i++){
+    if(PORTFOLIO[i].id==id){
+      PORTFOLIO[i].name=name; PORTFOLIO[i].cat=cat||"Outro";
+      PORTFOLIO[i].img=img; PORTFOLIO[i].url=url; PORTFOLIO[i].color=color||"#00ff88";
+      break;
+    }
+  }
+  saveLS("ds_portfolio",PORTFOLIO);
+  showToast("Projeto atualizado!","#00ff88");
+  renderDash();
+  if(currentPage==="home") renderHome();
+}
+
+
 function updateOrderStatus(oid, newStatus){
   for(var i=0;i<orders.length;i++){
     if(orders[i].id===oid){ orders[i].status=newStatus; break; }
