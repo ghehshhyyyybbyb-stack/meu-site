@@ -2,101 +2,211 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>DevStudio</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
+/* ── RESET ── */
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Syne',sans-serif;background:#080a0f;min-height:100vh;color:#e8e0d0}
+html{overflow-x:hidden}
+body{font-family:'Syne',sans-serif;background:#080a0f;min-height:100vh;color:#e8e0d0;overflow-x:hidden}
+img{max-width:100%}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#0d0f15}::-webkit-scrollbar-thumb{background:#00ff88;border-radius:2px}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 #00ff8844}50%{box-shadow:0 0 0 10px #00ff8800}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.5}}
-.card-hover{transition:transform .3s,box-shadow .3s}
-.card-hover:hover{transform:translateY(-6px);box-shadow:0 20px 40px #00ff8820}
-.btn-p{background:#00ff88;color:#080a0f;border:none;padding:12px 28px;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;letter-spacing:1px;cursor:pointer;transition:all .2s;text-transform:uppercase}
-.btn-p:hover{background:#00dd77;transform:translateY(-2px)}
-.btn-o{background:transparent;color:#00ff88;border:1px solid #00ff8844;padding:10px 24px;font-family:'Syne',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:all .2s;letter-spacing:1px;text-transform:uppercase}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── BUTTONS ── */
+.btn-p{background:#00ff88;color:#080a0f;border:none;padding:13px 28px;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;cursor:pointer;transition:all .2s;text-transform:uppercase;display:inline-block}
+.btn-p:hover{background:#00dd77}
+.btn-o{background:transparent;color:#00ff88;border:1px solid #00ff8844;padding:11px 24px;font-family:'Syne',sans-serif;font-weight:600;font-size:13px;cursor:pointer;transition:all .2s;letter-spacing:1px;text-transform:uppercase;display:inline-block}
 .btn-o:hover{border-color:#00ff88;background:#00ff8810}
-.inp{background:#0d0f15;border:1px solid #1e2230;color:#e8e0d0;padding:12px 16px;font-family:'DM Mono',monospace;font-size:14px;width:100%;outline:none;transition:border .2s}
+
+/* ── INPUTS ── */
+.inp{background:#0d0f15;border:1px solid #1e2230;color:#e8e0d0;padding:12px 14px;font-family:'DM Mono',monospace;font-size:14px;width:100%;outline:none;transition:border .2s;-webkit-appearance:none;border-radius:0}
 .inp:focus{border-color:#00ff88}
 textarea.inp{resize:vertical}
-.tag{display:inline-block;background:#00ff8815;color:#00ff88;font-size:10px;font-weight:700;letter-spacing:2px;padding:3px 10px;text-transform:uppercase}
-.udot{width:8px;height:8px;background:#ff4466;border-radius:50%;display:inline-block;animation:pulse 1.5s infinite}
-header{position:sticky;top:0;z-index:100;background:rgba(8,10,15,.93);backdrop-filter:blur(20px);border-bottom:1px solid #1e2230;padding:0 clamp(20px,5vw,80px)}
-.hdr{display:flex;align-items:center;justify-content:space-between;height:64px}
-.logo{cursor:pointer;display:flex;align-items:center;gap:10px}
-.logo-box{width:32px;height:32px;background:#00ff88;display:flex;align-items:center;justify-content:center;font-size:16px}
-.logo-txt{font-weight:800;font-size:18px;letter-spacing:2px;color:#e8e0d0}
-.logo-txt span{color:#00ff88}
-.nav-wrap{display:flex;gap:28px;align-items:center}
-.nl{cursor:pointer;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#8a8a9a;transition:color .2s;padding:4px 0;border-bottom:1px solid transparent}
-.nl.on{color:#00ff88;border-bottom-color:#00ff88}
-.ci{cursor:pointer;position:relative;font-size:20px;user-select:none}
-.cb{position:absolute;top:-8px;right:-8px;background:#00ff88;color:#080a0f;border-radius:50%;width:16px;height:16px;font-size:10px;font-weight:800;display:none;align-items:center;justify-content:center}
-.pg{display:none}.pg.on{display:block}
-footer{border-top:1px solid #1e2230;padding:40px clamp(20px,6vw,100px);margin-top:60px}
-.ft{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
-.fl{cursor:pointer;font-size:12px;color:#8a8a9a;font-family:'DM Mono';letter-spacing:1px}
-#toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);padding:14px 28px;font-family:'DM Mono';font-size:13px;z-index:9999;white-space:nowrap;display:none;pointer-events:none}
 .lbl{font-size:11px;color:#8a8a9a;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:6px;font-family:'DM Mono'}
-.fld{margin-bottom:16px}
+.fld{margin-bottom:14px}
+.tag{display:inline-block;background:#00ff8815;color:#00ff88;font-size:10px;font-weight:700;letter-spacing:2px;padding:3px 10px;text-transform:uppercase}
 
-/* CHAT WIDGET */
-#chat-btn{position:fixed;bottom:28px;right:28px;width:56px;height:56px;background:#00ff88;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;z-index:999;box-shadow:0 4px 20px #00ff8840;transition:transform .2s}
+/* ── HEADER ── */
+header{position:sticky;top:0;z-index:100;background:rgba(8,10,15,.95);backdrop-filter:blur(20px);border-bottom:1px solid #1e2230}
+.hdr{display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 16px}
+.logo{cursor:pointer;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.logo-box{width:28px;height:28px;background:#00ff88;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.logo-txt{font-weight:800;font-size:16px;letter-spacing:2px}
+.logo-txt span{color:#00ff88}
+.nav-right{display:flex;align-items:center;gap:12px}
+.ci{cursor:pointer;position:relative;font-size:18px;user-select:none;padding:4px}
+.cb{position:absolute;top:-6px;right:-6px;background:#00ff88;color:#080a0f;border-radius:50%;width:15px;height:15px;font-size:9px;font-weight:800;display:none;align-items:center;justify-content:center}
+
+/* Desktop nav links — hidden on mobile */
+.nav-links{display:flex;gap:20px;align-items:center}
+.nl{cursor:pointer;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#8a8a9a;transition:color .2s;padding:4px 0;border-bottom:1px solid transparent}
+.nl.on{color:#00ff88;border-bottom-color:#00ff88}
+
+/* Hamburger */
+.ham{display:none;flex-direction:column;gap:4px;cursor:pointer;padding:6px}
+.ham span{display:block;width:22px;height:2px;background:#e8e0d0;transition:all .3s;border-radius:1px}
+
+/* Mobile overlay menu */
+#mob-menu{display:none;position:fixed;inset:0;background:#080a0f;z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:36px}
+#mob-menu.open{display:flex}
+.mob-nl{font-size:28px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#8a8a9a;cursor:pointer;transition:color .2s}
+.mob-nl.on{color:#00ff88}
+.mob-icons{display:flex;gap:32px;margin-top:8px}
+#mob-close{position:absolute;top:18px;right:20px;font-size:24px;cursor:pointer;color:#8a8a9a;padding:4px}
+
+/* ── PAGES ── */
+.pg{display:none}.pg.on{display:block}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid #1e2230;padding:32px 16px;margin-top:40px}
+.ft{display:flex;flex-direction:column;gap:20px}
+.ft-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.ft-links{display:flex;gap:20px}
+.fl{cursor:pointer;font-size:12px;color:#8a8a9a;font-family:'DM Mono';letter-spacing:1px}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);padding:12px 20px;font-family:'DM Mono';font-size:12px;z-index:9999;white-space:nowrap;display:none;pointer-events:none;max-width:90vw;text-align:center}
+
+/* ── CHAT WIDGET ── */
+#chat-btn{position:fixed;bottom:20px;right:16px;width:52px;height:52px;background:#00ff88;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;z-index:999;box-shadow:0 4px 20px #00ff8840;transition:transform .2s}
 #chat-btn:hover{transform:scale(1.1)}
-#chat-notif{position:absolute;top:-4px;right:-4px;width:14px;height:14px;background:#ff4466;border-radius:50%;display:none;animation:blink 1s infinite}
-#chat-box{position:fixed;bottom:100px;right:28px;width:340px;background:#0d0f15;border:1px solid #1e2230;z-index:998;display:none;flex-direction:column;box-shadow:0 20px 60px #000a;animation:fadeUp .3s}
+#chat-notif{position:absolute;top:-3px;right:-3px;width:12px;height:12px;background:#ff4466;border-radius:50%;display:none;animation:blink 1s infinite}
+#chat-box{position:fixed;bottom:84px;right:8px;left:8px;background:#0d0f15;border:1px solid #1e2230;z-index:998;display:none;flex-direction:column;box-shadow:0 20px 60px #000c;animation:fadeUp .25s;max-height:70vh}
 #chat-box.open{display:flex}
-#chat-header{background:#080a0f;padding:16px 20px;border-bottom:1px solid #1e2230;display:flex;align-items:center;justify-content:space-between}
+#chat-header{background:#080a0f;padding:14px 16px;border-bottom:1px solid #1e2230;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 #chat-header-left{display:flex;align-items:center;gap:10px}
-#chat-online{width:8px;height:8px;background:#00ff88;border-radius:50%;animation:pulse 2s infinite}
-#chat-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;max-height:320px;min-height:200px}
-#chat-msgs::-webkit-scrollbar{width:3px}
-#chat-msgs::-webkit-scrollbar-thumb{background:#1e2230}
-.msg-client{align-self:flex-end;background:#00ff8820;border:1px solid #00ff8830;color:#e8e0d0;padding:10px 14px;border-radius:12px 12px 2px 12px;font-size:13px;max-width:80%;line-height:1.5}
-.msg-dev{align-self:flex-start;background:#1e2230;color:#e8e0d0;padding:10px 14px;border-radius:12px 12px 12px 2px;font-size:13px;max-width:80%;line-height:1.5}
+#chat-online{width:8px;height:8px;background:#00ff88;border-radius:50%;animation:pulse 2s infinite;flex-shrink:0}
+#chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;min-height:120px}
+.msg-client{align-self:flex-end;background:#00ff8820;border:1px solid #00ff8830;color:#e8e0d0;padding:9px 13px;border-radius:12px 12px 2px 12px;font-size:13px;max-width:82%;line-height:1.5;word-break:break-word}
+.msg-dev{align-self:flex-start;background:#1e2230;color:#e8e0d0;padding:9px 13px;border-radius:12px 12px 12px 2px;font-size:13px;max-width:82%;line-height:1.5;word-break:break-word}
 .msg-time{font-size:10px;color:#8a8a9a;font-family:'DM Mono';margin-top:3px}
 .msg-client .msg-time{text-align:right}
-#chat-form{padding:12px;border-top:1px solid #1e2230;display:flex;gap:8px}
-#chat-input{flex:1;background:#080a0f;border:1px solid #1e2230;color:#e8e0d0;padding:10px 14px;font-family:'DM Mono';font-size:13px;outline:none;border-radius:0}
+#chat-form{padding:10px;border-top:1px solid #1e2230;display:flex;gap:8px;flex-shrink:0}
+#chat-input{flex:1;background:#080a0f;border:1px solid #1e2230;color:#e8e0d0;padding:10px 12px;font-family:'DM Mono';font-size:13px;outline:none;-webkit-appearance:none;border-radius:0;min-width:0}
 #chat-input:focus{border-color:#00ff88}
-#chat-send{background:#00ff88;color:#080a0f;border:none;padding:10px 16px;cursor:pointer;font-weight:800;font-size:16px;transition:background .2s}
-#chat-send:hover{background:#00dd77}
-#chat-name-screen{padding:20px;display:flex;flex-direction:column;gap:12px}
+#chat-send{background:#00ff88;color:#080a0f;border:none;padding:10px 14px;cursor:pointer;font-weight:800;font-size:16px;flex-shrink:0}
+#chat-name-screen{padding:16px;display:flex;flex-direction:column;gap:12px}
+
+/* ── CARDS ── */
+.card{background:#0d0f15;border:1px solid #1e2230;padding:20px;position:relative;overflow:hidden;animation:fadeUp .5s ease both}
+.card:active{opacity:.9}
+
+/* ── COUNTDOWN BANNER ── */
+#promo-bar{background:linear-gradient(90deg,#ff4400,#ff6600);color:#fff;text-align:center;padding:10px 16px;font-family:'DM Mono',monospace;font-size:12px;letter-spacing:1px;position:relative;z-index:99}
+#promo-bar strong{font-family:'Syne',sans-serif;font-weight:800;font-size:14px;margin:0 4px}
+#countdown{font-weight:800;color:#fff;font-size:14px;letter-spacing:2px}
+
+@media(min-width:641px){
+  .hdr{height:64px;padding:0 clamp(20px,5vw,80px)}
+  .ham{display:none !important}
+  .nav-links{display:flex !important}
+  #chat-box{left:auto;right:24px;width:340px;bottom:96px;max-height:500px}
+  #chat-btn{right:24px;bottom:24px;width:56px;height:56px;font-size:24px}
+  footer{padding:40px clamp(20px,6vw,100px)}
+  .ft{flex-direction:row;justify-content:space-between;align-items:center}
+}
+
+/* ── MOBILE ONLY ── */
+@media(max-width:640px){
+  .ham{display:flex}
+  .nav-links{display:none !important}
+
+  /* sections */
+  .sec{padding:40px 16px}
+  .sec-lg{padding:56px 16px}
+
+  /* hero */
+  .hero{padding:56px 16px 40px;min-height:auto}
+  .hero h1{font-size:36px;letter-spacing:-1px;line-height:1.1}
+  .hero-btns{flex-direction:column;gap:10px}
+  .hero-btns .btn-p,.hero-btns .btn-o{width:100%;text-align:center}
+  .hero-stats{gap:20px;margin-top:32px}
+  .hero-stats > div > div:first-child{font-size:22px}
+
+  /* cards grid — single column */
+  .cards-grid{grid-template-columns:1fr !important}
+
+  /* cart grid — stack */
+  .cart-grid{grid-template-columns:1fr !important}
+
+  /* admin form */
+  .adm-form{padding:28px 20px !important}
+
+  /* button full width on mobile forms */
+  .btn-full-mob{width:100%;text-align:center}
+
+  /* section title */
+  .sec-title{font-size:26px !important}
+
+  /* carousel orbit decorations hidden */
+  .orbit{display:none}
+}
 </style>
 </head>
 <body>
 
+<!-- PROMO BAR -->
+<div id="promo-bar">
+  🔥 <strong>60% OFF</strong> por tempo limitado — termina em <span id="countdown">00:00:00</span>
+  <span onclick="document.getElementById('promo-bar').style.display='none'" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);cursor:pointer;opacity:.7;font-size:16px">✕</span>
+</div>
+
+<!-- HEADER -->
 <header>
   <div class="hdr">
-    <div class="logo" onclick="goTo('home')">
+    <div class="logo" onclick="logoTap()">
       <div class="logo-box">⚡</div>
       <span class="logo-txt">DEV<span>STUDIO</span></span>
     </div>
-    <div class="nav-wrap">
+    <div class="nav-links">
       <span class="nl on" id="nl-home"     onclick="goTo('home')">Inicio</span>
       <span class="nl"    id="nl-servicos" onclick="goTo('servicos')">Servicos</span>
+    </div>
+    <div class="nav-right">
       <div class="ci" onclick="goTo('carrinho')">🛍️<span class="cb" id="cart-badge">0</span></div>
-      <div class="ci" id="admin-btn" onclick="goTo('admin')">🔒</div>
+      <div class="ci" id="admin-btn" onclick="goTo('admin')" style="display:none">🔒</div>
+      <div class="ham" id="ham" onclick="openMenu()">
+        <span></span><span></span><span></span>
+      </div>
     </div>
   </div>
 </header>
 
+<!-- MOBILE MENU -->
+<div id="mob-menu">
+  <div id="mob-close" onclick="closeMenu()">✕</div>
+  <span class="mob-nl on" id="mnl-home"     onclick="goTo('home');closeMenu()">Inicio</span>
+  <span class="mob-nl"    id="mnl-servicos" onclick="goTo('servicos');closeMenu()">Servicos</span>
+  <div class="mob-icons">
+    <div class="ci" onclick="goTo('carrinho');closeMenu()" style="font-size:22px">🛍️<span class="cb" id="cart-badge2">0</span></div>
+    <div class="ci" id="admin-btn2" onclick="goTo('admin');closeMenu()" style="font-size:22px;display:none">🔒</div>
+  </div>
+</div>
+
+<!-- PAGES -->
 <div id="pg-home"     class="pg on"></div>
 <div id="pg-servicos" class="pg"></div>
 <div id="pg-carrinho" class="pg"></div>
 <div id="pg-admin"    class="pg"></div>
 
+<!-- FOOTER -->
 <footer>
   <div class="ft">
-    <div style="font-weight:800;font-size:16px;letter-spacing:2px">DEV<span style="color:#00ff88">STUDIO</span></div>
-    <div style="display:flex;gap:24px">
-      <span class="fl" onclick="goTo('home')">Inicio</span>
-      <span class="fl" onclick="goTo('servicos')">Servicos</span>
+    <div class="ft-top" style="width:100%">
+      <div style="font-weight:800;font-size:16px;letter-spacing:2px">DEV<span style="color:#00ff88">STUDIO</span></div>
+      <div class="ft-links">
+        <span class="fl" onclick="goTo('home')">Inicio</span>
+        <span class="fl" onclick="goTo('servicos')">Servicos</span>
+      </div>
     </div>
-    <div style="font-size:12px;color:#8a8a9a;font-family:'DM Mono'">2025 DevStudio. Todos os direitos reservados.</div>
+    <div style="font-size:11px;color:#8a8a9a;font-family:'DM Mono'">© 2025 DevStudio. Todos os direitos reservados.</div>
   </div>
 </footer>
 
@@ -116,11 +226,9 @@ footer{border-top:1px solid #1e2230;padding:40px clamp(20px,6vw,100px);margin-to
         <div style="font-size:11px;color:#00ff88;font-family:'DM Mono'">Online agora</div>
       </div>
     </div>
-    <span onclick="toggleChat()" style="cursor:pointer;color:#8a8a9a;font-size:18px">✕</span>
+    <span onclick="toggleChat()" style="cursor:pointer;color:#8a8a9a;font-size:20px;padding:4px">✕</span>
   </div>
-  <div id="chat-body">
-    <!-- name screen or messages rendered by JS -->
-  </div>
+  <div id="chat-body"></div>
 </div>
 
 <div id="toast"></div>
@@ -128,30 +236,21 @@ footer{border-top:1px solid #1e2230;padding:40px clamp(20px,6vw,100px);margin-to
 <!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, push, onValue, set, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-var firebaseConfig = {
-  apiKey: "AIzaSyCL-lsAxmjU7j7bbz4kOHl65wXTtu_mhPM",
-  authDomain: "devstudio-fe016.firebaseapp.com",
-  databaseURL: "https://devstudio-fe016-default-rtdb.firebaseio.com",
-  projectId: "devstudio-fe016",
-  storageBucket: "devstudio-fe016.firebasestorage.app",
-  messagingSenderId: "56117088073",
-  appId: "1:56117088073:web:fb4ecc4ea756f48b3fd498"
+import { getDatabase, ref, push, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+var cfg = {
+  apiKey:"AIzaSyCL-lsAxmjU7j7bbz4kOHl65wXTtu_mhPM",
+  authDomain:"devstudio-fe016.firebaseapp.com",
+  databaseURL:"https://devstudio-fe016-default-rtdb.firebaseio.com",
+  projectId:"devstudio-fe016",
+  storageBucket:"devstudio-fe016.firebasestorage.app",
+  messagingSenderId:"56117088073",
+  appId:"1:56117088073:web:fb4ecc4ea756f48b3fd498"
 };
-
-var app = initializeApp(firebaseConfig);
+var app = initializeApp(cfg);
 var db  = getDatabase(app);
-
-window._fbDB   = db;
-window._fbRef  = ref;
-window._fbPush = push;
-window._fbOnValue = onValue;
-window._fbSet  = set;
-window._fbTS   = serverTimestamp;
-
-window._fbReady = true;
-if (window._fbReadyCb) window._fbReadyCb();
+window._fbDB=db; window._fbRef=ref; window._fbPush=push; window._fbOnValue=onValue; window._fbSet=set;
+window._fbReady=true;
+if(window._fbReadyCb) window._fbReadyCb();
 </script>
 
 <script>
@@ -159,87 +258,81 @@ if (window._fbReadyCb) window._fbReadyCb();
    DATA
 ============================================================ */
 var SVC = [
-  {id:1, icon:"🛒", title:"Loja Virtual",       desc:"E-commerce completo com carrinho, pagamento e painel de gestao de produtos.", oldPrice:1800, price:720,  tag:"Mais pedido", prazo:"5 a 7 dias"},
-  {id:2, icon:"🏢", title:"Site Institucional", desc:"Presenca digital profissional para empresas, com SEO e design moderno.",       oldPrice:900,  price:360,  tag:null,          prazo:"3 a 5 dias"},
-  {id:3, icon:"🍔", title:"Cardapio Digital",   desc:"Menu online com pedidos via WhatsApp, categorias e fotos dos produtos.",       oldPrice:650,  price:260,  tag:"Popular",     prazo:"3 dias"},
-  {id:4, icon:"📸", title:"Portfolio / Blog",   desc:"Mostre seu trabalho ou publique conteudo com design editorial unico.",         oldPrice:750,  price:300,  tag:null,          prazo:"2 a 3 dias"},
-  {id:5, icon:"🏠", title:"Site Imobiliario",   desc:"Catalogo de imoveis com filtros, fotos e formulario de contato integrado.",    oldPrice:1400, price:560,  tag:null,          prazo:"A combinar"},
-  {id:6, icon:"📅", title:"Agendamento Online", desc:"Sistema de reservas e agendamentos para clinicas, saloes e servicos.",         oldPrice:1200, price:480,  tag:"Novo",        prazo:"A combinar"},
-  {id:7, icon:"🎓", title:"Plataforma EAD",     desc:"Area de membros com cursos, videos e progresso do aluno.",                     oldPrice:2500, price:1000, tag:null,          prazo:"A combinar"},
-  {id:8, icon:"🎨", title:"Landing Page",       desc:"Pagina de captura de alta conversao para lancamentos e campanhas.",            oldPrice:450,  price:180,  tag:"Rapido",      prazo:"A combinar"}
+  {id:1,icon:"🛒",title:"Loja Virtual",       desc:"E-commerce completo com carrinho, pagamento e gestao de produtos.",oldPrice:1800,price:720, tag:"Mais pedido",prazo:"5 a 7 dias"},
+  {id:2,icon:"🏢",title:"Site Institucional",  desc:"Presenca digital profissional para empresas, com SEO e design moderno.",oldPrice:900, price:360, tag:null,prazo:"3 a 5 dias"},
+  {id:3,icon:"🍔",title:"Cardapio Digital",    desc:"Menu online com pedidos via WhatsApp e fotos dos produtos.",oldPrice:650, price:260, tag:"Popular",prazo:"3 dias"},
+  {id:4,icon:"📸",title:"Portfolio / Blog",    desc:"Mostre seu trabalho com design editorial unico.",oldPrice:750, price:300, tag:null,prazo:"2 a 3 dias"},
+  {id:5,icon:"🏠",title:"Site Imobiliario",    desc:"Catalogo de imoveis com filtros, fotos e formulario de contato.",oldPrice:1400,price:560, tag:null,prazo:"A combinar"},
+  {id:6,icon:"📅",title:"Agendamento Online",  desc:"Sistema de reservas para clinicas, saloes e servicos.",oldPrice:1200,price:480, tag:"Novo",prazo:"A combinar"},
+  {id:7,icon:"🎓",title:"Plataforma EAD",      desc:"Area de membros com cursos, videos e progresso do aluno.",oldPrice:2500,price:1000,tag:null,prazo:"A combinar"},
+  {id:8,icon:"🎨",title:"Landing Page",        desc:"Pagina de alta conversao para lancamentos e campanhas.",oldPrice:450, price:180, tag:"Rapido",prazo:"A combinar"}
 ];
+var ADMIN_USER="001matheus", ADMIN_PASS="0004";
+var cart=[], adminLogged=false, currentPage="home", adminTab="chat";
+var orders=[];
+function loadLS(k){try{var v=localStorage.getItem(k);return v?JSON.parse(v):[]}catch(e){return[]}}
+function saveLS(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+orders=loadLS("ds_orders");
 
-var ADMIN_USER = "001matheus";
-var ADMIN_PASS = "0004";
-
-var cart = [];
-var adminLogged = false;
-var currentPage = "home";
-var adminTab = "msgs";
-var orders = [];
-
-function loadLS(k) { try { var v=localStorage.getItem(k); return v?JSON.parse(v):[]; } catch(e){return[];} }
-function saveLS(k,v){ try{localStorage.setItem(k,JSON.stringify(v));}catch(e){} }
-
-orders = loadLS("ds_orders");
-
-/* ============================================================
-   TOAST
-============================================================ */
-var toastTimer = null;
-function showToast(msg, color) {
-  if (!color) color = "#00ff88";
-  var t = document.getElementById("toast");
-  t.textContent = msg;
-  t.style.cssText = "display:block;background:#0d1420;border:1px solid "+color+";color:"+color+";position:fixed;bottom:90px;left:50%;transform:translateX(-50%);padding:14px 28px;font-family:'DM Mono';font-size:13px;z-index:9999;white-space:nowrap;pointer-events:none";
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(function(){ t.style.display="none"; }, 3000);
+/* ── TOAST ── */
+var _tt=null;
+function showToast(msg,color){
+  if(!color)color="#00ff88";
+  var t=document.getElementById("toast");
+  t.textContent=msg;
+  t.style.cssText="display:block;background:#0d1420;border:1px solid "+color+";color:"+color+";position:fixed;bottom:80px;left:50%;transform:translateX(-50%);padding:12px 20px;font-family:'DM Mono';font-size:12px;z-index:9999;pointer-events:none;max-width:90vw;text-align:center";
+  clearTimeout(_tt);
+  _tt=setTimeout(function(){t.style.display="none"},3000);
 }
 
-/* ============================================================
-   NAV
-============================================================ */
-function goTo(page) {
-  var all = document.querySelectorAll(".pg");
-  for (var i=0;i<all.length;i++) all[i].classList.remove("on");
+/* ── MOBILE MENU ── */
+function openMenu(){document.getElementById("mob-menu").classList.add("open");}
+function closeMenu(){document.getElementById("mob-menu").classList.remove("open");}
+
+/* ── NAV ── */
+function goTo(page){
+  var all=document.querySelectorAll(".pg");
+  for(var i=0;i<all.length;i++) all[i].classList.remove("on");
   document.getElementById("pg-"+page).classList.add("on");
-  var nls = document.querySelectorAll(".nl");
-  for (var i=0;i<nls.length;i++) nls[i].classList.remove("on");
-  var nl = document.getElementById("nl-"+page);
-  if (nl) nl.classList.add("on");
-  currentPage = page;
+  var nls=document.querySelectorAll(".nl,.mob-nl");
+  for(var i=0;i<nls.length;i++) nls[i].classList.remove("on");
+  var nl=document.getElementById("nl-"+page);
+  if(nl) nl.classList.add("on");
+  var mnl=document.getElementById("mnl-"+page);
+  if(mnl) mnl.classList.add("on");
+  currentPage=page;
   window.scrollTo(0,0);
-  if (page==="home")     renderHome();
-  if (page==="servicos") renderServicos();
-  if (page==="carrinho") renderCart("list");
-  if (page==="admin")    renderAdmin();
-  updBadge();
-  updAdminBtn();
+  if(page==="home")     renderHome();
+  if(page==="servicos") renderServicos();
+  if(page==="carrinho") renderCart("list");
+  if(page==="admin")    renderAdmin();
+  updBadge(); updAdminBtn();
 }
 
-function updBadge() {
-  var b = document.getElementById("cart-badge");
-  if (cart.length>0){b.style.display="flex";b.textContent=cart.length;}
-  else{b.style.display="none";}
+function updBadge(){
+  var bs=[document.getElementById("cart-badge"),document.getElementById("cart-badge2")];
+  for(var i=0;i<bs.length;i++){
+    if(!bs[i]) continue;
+    if(cart.length>0){bs[i].style.display="flex";bs[i].textContent=cart.length;}
+    else bs[i].style.display="none";
+  }
+}
+function updAdminBtn(){
+  var icon=adminLogged?"🔓":"🔒";
+  var b1=document.getElementById("admin-btn"); if(b1) b1.innerHTML=icon;
+  var b2=document.getElementById("admin-btn2"); if(b2) b2.innerHTML=icon;
 }
 
-function updAdminBtn() {
-  var btn = document.getElementById("admin-btn");
-  btn.innerHTML = adminLogged ? "🔓" : "🔒";
-}
-
-/* ============================================================
-   CART
-============================================================ */
-function addToCart(sid) {
+/* ── CART ── */
+function addToCart(sid){
   var svc=null;
-  for(var i=0;i<SVC.length;i++){if(SVC[i].id===sid){svc=SVC[i];break;}}
+  for(var i=0;i<SVC.length;i++) if(SVC[i].id===sid){svc=SVC[i];break;}
   if(!svc) return;
   var found=false;
   for(var i=0;i<cart.length;i++) if(cart[i].id===sid){found=true;break;}
   if(!found) cart.push({id:svc.id,icon:svc.icon,title:svc.title,price:svc.price});
   updBadge();
-  showToast('"'+svc.title+'" adicionado ao carrinho!');
+  showToast(svc.title+" adicionado!");
 }
 function removeFromCart(sid){
   var nc=[];
@@ -247,143 +340,150 @@ function removeFromCart(sid){
   cart=nc; updBadge(); renderCart("list");
 }
 
-/* ============================================================
-   HELPERS
-============================================================ */
-function gv(id){var el=document.getElementById(id);return el?el.value.trim():"";}
-function mkField(id,label,type){
-  return '<div class="fld"><label class="lbl">'+label+'</label><input class="inp" type="'+type+'" id="'+id+'"></div>';
-}
-function mkTA(id,label){
-  return '<div class="fld"><label class="lbl">'+label+'</label><textarea class="inp" id="'+id+'" rows="3"></textarea></div>';
-}
+/* ── HELPERS ── */
+function gv(id){var el=document.getElementById(id);return el?el.value.trim():""}
+function mkF(id,lbl,type){return '<div class="fld"><label class="lbl">'+lbl+'</label><input class="inp" type="'+type+'" id="'+id+'"></div>'}
+function mkTA(id,lbl){return '<div class="fld"><label class="lbl">'+lbl+'</label><textarea class="inp" id="'+id+'" rows="3"></textarea></div>'}
+
 function mkCard(s,delay){
   if(!delay) delay=0;
-  var tagH = s.tag?'<div class="tag" style="margin-bottom:10px">'+s.tag+'</div>':"";
-  var oldP = s.oldPrice?'<div style="font-size:12px;color:#8a8a9a;text-decoration:line-through;font-family:\'DM Mono\',monospace">R$ '+s.oldPrice.toLocaleString("pt-BR")+'</div>':"";
-  var prazoH = s.prazo?'<div style="font-size:11px;color:#8a8a9a;font-family:\'DM Mono\',monospace;margin-top:4px">Prazo: '+s.prazo+'</div>':"";
-  return '<div class="card-hover" style="background:#0d0f15;border:1px solid #1e2230;padding:28px;animation:fadeUp .6s ease '+delay+'ms both;position:relative;overflow:hidden">'
-    +'<div style="position:absolute;top:0;right:0;background:#ff4400;color:#fff;font-size:10px;font-weight:800;padding:4px 10px;letter-spacing:1px">60% OFF</div>'
+  var tagH=s.tag?'<div class="tag" style="margin-bottom:10px">'+s.tag+'</div>':"";
+  return '<div class="card" style="animation-delay:'+delay+'ms">'
+    +'<div style="position:absolute;top:0;right:0;background:#ff4400;color:#fff;font-size:9px;font-weight:800;padding:4px 9px;letter-spacing:1px">60% OFF</div>'
     +tagH
-    +'<div style="font-size:36px;margin-bottom:12px">'+s.icon+'</div>'
-    +'<h3 style="font-size:18px;font-weight:700;margin-bottom:10px">'+s.title+'</h3>'
-    +'<p style="color:#8a8a9a;font-size:13px;line-height:1.7;font-family:\'DM Mono\',monospace;margin-bottom:20px">'+s.desc+'</p>'
-    +'<div style="display:flex;justify-content:space-between;align-items:flex-end">'
-    +'<div>'+oldP+'<div style="font-size:22px;font-weight:800;color:#00ff88;line-height:1.1">R$ '+s.price.toLocaleString("pt-BR")+'</div>'+prazoH+'</div>'
-    +'<button class="btn-p" style="font-size:12px;padding:10px 18px" onclick="addToCart('+s.id+')">+ Adicionar</button>'
+    +'<div style="font-size:32px;margin-bottom:10px">'+s.icon+'</div>'
+    +'<h3 style="font-size:16px;font-weight:700;margin-bottom:8px">'+s.title+'</h3>'
+    +'<p style="color:#8a8a9a;font-size:12px;line-height:1.7;font-family:\'DM Mono\',monospace;margin-bottom:16px">'+s.desc+'</p>'
+    +'<div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px">'
+    +'<div>'
+    +(s.oldPrice?'<div style="font-size:11px;color:#8a8a9a;text-decoration:line-through;font-family:\'DM Mono\'">R$ '+s.oldPrice.toLocaleString("pt-BR")+'</div>':"")
+    +'<div style="font-size:20px;font-weight:800;color:#00ff88">R$ '+s.price.toLocaleString("pt-BR")+'</div>'
+    +(s.prazo?'<div style="font-size:10px;color:#8a8a9a;font-family:\'DM Mono\';margin-top:2px">Prazo: '+s.prazo+'</div>':"")
+    +'</div>'
+    +'<button class="btn-p" style="font-size:11px;padding:9px 16px" onclick="addToCart('+s.id+')">+ Carrinho</button>'
     +'</div></div>';
 }
 
-/* ============================================================
-   HOME
-============================================================ */
+/* ── HOME ── */
 function renderHome(){
   var cards="";
-  for(var i=0;i<4;i++) cards+=mkCard(SVC[i],i*80);
+  for(var i=0;i<4;i++) cards+=mkCard(SVC[i],i*70);
   document.getElementById("pg-home").innerHTML=
-    '<section style="min-height:90vh;display:flex;align-items:center;padding:80px clamp(20px,8vw,120px);position:relative;overflow:hidden">'
-    +'<div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 70% 50%,#00ff8808 0%,transparent 70%);pointer-events:none"></div>'
-    +'<div style="position:absolute;top:20%;right:8%;width:300px;height:300px;border:1px solid #00ff8815;border-radius:50%;animation:spin 30s linear infinite;pointer-events:none"></div>'
-    +'<div style="position:absolute;top:25%;right:10%;width:200px;height:200px;border:1px solid #00ff8825;border-radius:50%;animation:spin 20s linear infinite reverse;pointer-events:none"></div>'
-    +'<div style="max-width:680px;animation:fadeUp .8s ease">'
-    +'<div class="tag" style="margin-bottom:24px">Desenvolvimento Web Profissional</div>'
-    +'<h1 style="font-size:clamp(42px,7vw,88px);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:28px">Sites que<br><span style="color:#00ff88">convertem</span><br>de verdade.</h1>'
-    +'<p style="font-size:17px;color:#8a8a9a;line-height:1.8;max-width:500px;margin-bottom:40px;font-family:\'DM Mono\',monospace">Criamos sua presenca digital com design moderno, codigo limpo e entrega rapida.</p>'
-    +'<div style="display:flex;gap:16px;flex-wrap:wrap">'
+    '<div class="hero" style="padding:56px 16px 48px;position:relative;overflow:hidden">'
+    +'<div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 80% 40%,#00ff8808 0%,transparent 70%);pointer-events:none"></div>'
+    +'<div class="orbit" style="position:absolute;top:10%;right:-60px;width:260px;height:260px;border:1px solid #00ff8812;border-radius:50%;animation:spin 30s linear infinite;pointer-events:none"></div>'
+    +'<div style="position:relative;max-width:700px;animation:fadeUp .7s ease">'
+    +'<div class="tag" style="margin-bottom:16px">Desenvolvimento Web</div>'
+    +'<h1 style="font-size:clamp(36px,8vw,80px);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:20px">Sites que<br><span style="color:#00ff88">convertem</span><br>de verdade.</h1>'
+    +'<p style="font-size:15px;color:#8a8a9a;line-height:1.8;max-width:480px;margin-bottom:32px;font-family:\'DM Mono\',monospace">Design moderno, codigo limpo e entrega rapida.</p>'
+    +'<div class="hero-btns" style="display:flex;gap:12px;flex-wrap:wrap">'
     +'<button class="btn-p" onclick="goTo(\'servicos\')">Ver servicos</button>'
     +'<button class="btn-o" onclick="toggleChat()">Falar comigo</button>'
     +'</div>'
-    +'<div style="display:flex;gap:40px;margin-top:60px">'
-    +'<div><div style="font-size:28px;font-weight:800;color:#00ff88">50+</div><div style="font-size:11px;color:#8a8a9a;letter-spacing:1px;text-transform:uppercase;font-family:\'DM Mono\',monospace">Sites entregues</div></div>'
-    +'<div><div style="font-size:28px;font-weight:800;color:#00ff88">3 dias</div><div style="font-size:11px;color:#8a8a9a;letter-spacing:1px;text-transform:uppercase;font-family:\'DM Mono\',monospace">Prazo medio</div></div>'
-    +'<div><div style="font-size:28px;font-weight:800;color:#00ff88">100%</div><div style="font-size:11px;color:#8a8a9a;letter-spacing:1px;text-transform:uppercase;font-family:\'DM Mono\',monospace">Satisfacao</div></div>'
-    +'</div></div></section>'
-    +'<section style="padding:80px clamp(20px,6vw,100px)">'
-    +'<div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;flex-wrap:wrap;gap:16px">'
-    +'<div><div class="tag" style="margin-bottom:12px">O que faco</div><h2 style="font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-1px">Tipos de site</h2></div>'
-    +'<button class="btn-o" onclick="goTo(\'servicos\')">Ver todos</button>'
+    +'<div class="hero-stats" style="display:flex;gap:32px;margin-top:40px;flex-wrap:wrap">'
+    +'<div><div style="font-size:26px;font-weight:800;color:#00ff88">50+</div><div style="font-size:10px;color:#8a8a9a;letter-spacing:1px;text-transform:uppercase;font-family:\'DM Mono\'">Sites entregues</div></div>'
+    +'<div><div style="font-size:26px;font-weight:800;color:#00ff88">3 dias</div><div style="font-size:10px;color:#8a8a9a;letter-spacing:1px;text-transform:uppercase;font-family:\'DM Mono\'">Prazo medio</div></div>'
+    +'<div><div style="font-size:26px;font-weight:800;color:#00ff88">100%</div><div style="font-size:10px;color:#8a8a9a;letter-spacing:1px;text-transform:uppercase;font-family:\'DM Mono\'">Satisfacao</div></div>'
+    +'</div></div></div>'
+    +'<div class="sec" style="padding:40px 16px">'
+    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px">'
+    +'<div><div class="tag" style="margin-bottom:8px">O que faco</div><h2 class="sec-title" style="font-size:clamp(22px,4vw,40px);font-weight:800;letter-spacing:-1px">Tipos de site</h2></div>'
+    +'<button class="btn-o" style="font-size:11px;padding:8px 16px" onclick="goTo(\'servicos\')">Ver todos</button>'
     +'</div>'
-    +'<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px">'+cards+'</div>'
-    +'</section>'
-    +'<section style="padding:80px clamp(20px,6vw,100px);text-align:center">'
-    +'<div style="background:#0d0f15;border:1px solid #00ff8822;padding:60px 40px;max-width:700px;margin:0 auto">'
-    +'<div style="font-size:48px;margin-bottom:20px">💬</div>'
-    +'<h2 style="font-size:clamp(24px,3vw,40px);font-weight:800;margin-bottom:16px">Tem um projeto em mente?</h2>'
-    +'<p style="color:#8a8a9a;font-family:\'DM Mono\',monospace;margin-bottom:32px;font-size:14px;line-height:1.8">Me manda uma mensagem e respondo em ate 1 hora.</p>'
-    +'<button class="btn-p" onclick="toggleChat()">Iniciar conversa</button>'
-    +'</div></section>';
+    +'<div class="cards-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px">'+cards+'</div>'
+    +'</div>'
+    +'<div style="padding:40px 16px;text-align:center">'
+    +'<div style="background:#0d0f15;border:1px solid #00ff8820;padding:40px 24px;max-width:600px;margin:0 auto">'
+    +'<div style="font-size:40px;margin-bottom:16px">💬</div>'
+    +'<h2 style="font-size:clamp(20px,4vw,36px);font-weight:800;margin-bottom:12px">Tem um projeto?</h2>'
+    +'<p style="color:#8a8a9a;font-family:\'DM Mono\',monospace;margin-bottom:24px;font-size:13px;line-height:1.8">Respondo em ate 1 hora.</p>'
+    +'<button class="btn-p btn-full-mob" onclick="toggleChat()">Iniciar conversa</button>'
+    +'</div></div>';
 }
 
-/* ============================================================
-   SERVICOS
-============================================================ */
+/* ── SERVICOS ── */
 function renderServicos(){
   var cards="";
-  for(var i=0;i<SVC.length;i++) cards+=mkCard(SVC[i],i*60);
+  for(var i=0;i<SVC.length;i++) cards+=mkCard(SVC[i],i*50);
   document.getElementById("pg-servicos").innerHTML=
-    '<div style="padding:60px clamp(20px,6vw,100px)">'
-    +'<div class="tag" style="margin-bottom:12px">Catalogo completo</div>'
-    +'<h2 style="font-size:clamp(28px,4vw,52px);font-weight:800;letter-spacing:-1px;margin-bottom:8px">Servicos e Precos</h2>'
-    +'<p style="color:#8a8a9a;font-family:\'DM Mono\',monospace;margin-bottom:48px;font-size:14px">Adicione ao carrinho e solicite seu orcamento</p>'
-    +'<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px">'+cards+'</div>'
+    '<div style="padding:40px 16px">'
+    +'<div class="tag" style="margin-bottom:10px">Catalogo completo</div>'
+    +'<h2 class="sec-title" style="font-size:clamp(24px,4vw,48px);font-weight:800;letter-spacing:-1px;margin-bottom:6px">Servicos</h2>'
+    +'<p style="color:#8a8a9a;font-family:\'DM Mono\',monospace;margin-bottom:32px;font-size:13px">Adicione ao carrinho e solicite orcamento</p>'
+    +'<div class="cards-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px">'+cards+'</div>'
     +'</div>';
 }
 
-/* ============================================================
-   CARRINHO
-============================================================ */
-function renderCart(step){
-  var total=0;
-  for(var i=0;i<cart.length;i++) total+=cart[i].price;
+/* ── CARRINHO ── */
+function renderCart(step, orderId){
+  var total=0; for(var i=0;i<cart.length;i++) total+=cart[i].price;
   var el=document.getElementById("pg-carrinho");
   if(step==="done"){
-    el.innerHTML='<div style="padding:100px clamp(20px,6vw,100px);text-align:center;animation:fadeUp .5s">'
-      +'<div style="font-size:64px;margin-bottom:24px">🎉</div>'
-      +'<h2 style="font-size:36px;font-weight:800;margin-bottom:16px">Pedido recebido!</h2>'
-      +'<p style="color:#8a8a9a;font-family:\'DM Mono\',monospace;margin-bottom:32px">Entrarei em contato em breve.</p>'
-      +'<button class="btn-p" onclick="goTo(\'home\')">Voltar ao inicio</button></div>';
+    el.innerHTML='<div style="padding:60px 16px;text-align:center;animation:fadeUp .5s">'
+      +'<div style="font-size:56px;margin-bottom:16px">🎉</div>'
+      +'<h2 style="font-size:26px;font-weight:800;margin-bottom:10px">Pedido recebido!</h2>'
+      +'<p style="color:#8a8a9a;font-family:\'DM Mono\';font-size:13px;margin-bottom:28px;line-height:1.7">Agora voce pode conversar comigo direto<br>para alinharmos o orcamento!</p>'
+      +'<div style="background:#0d0f15;border:1px solid #00ff8830;padding:24px;max-width:480px;margin:0 auto">'
+      +'<div id="order-chat-area">'
+      +'<div style="font-size:13px;color:#8a8a9a;font-family:\'DM Mono\';margin-bottom:16px;text-align:left">💬 Chat do pedido #'+orderId+'</div>'
+      +'<div id="order-chat-msgs" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;max-height:240px;overflow-y:auto;min-height:60px">'
+      +'<div style="text-align:center;color:#8a8a9a;font-family:\'DM Mono\';font-size:12px">Ola! Me conta mais sobre seu projeto.</div>'
+      +'</div>'
+      +'<div style="display:flex;gap:8px">'
+      +'<input id="order-chat-inp" class="inp" placeholder="Sua mensagem..." style="font-size:13px">'
+      +'<button class="btn-p" style="font-size:13px;padding:10px 14px;flex-shrink:0" onclick="sendOrderChat(\''+orderId+'\')">➤</button>'
+      +'</div></div>'
+      +'</div>'
+      +'<button class="btn-o" style="margin-top:20px;font-size:12px" onclick="goTo(\'home\')">Ir ao inicio</button>'
+      +'</div>';
+    // start listening to this order chat
+    startOrderChatListen(orderId);
+    setTimeout(function(){
+      var inp=document.getElementById("order-chat-inp");
+      if(inp) inp.addEventListener("keydown",function(e){if(e.key==="Enter") sendOrderChat(orderId);});
+    },100);
     return;
   }
   if(step==="form"){
-    el.innerHTML='<div style="padding:60px clamp(20px,6vw,100px);max-width:600px">'
-      +'<h2 style="font-size:32px;font-weight:800;margin-bottom:32px">Seus dados</h2>'
-      +mkField("order-name","Nome completo *","text")
-      +mkField("order-email","E-mail *","email")
-      +mkField("order-phone","WhatsApp","text")
+    el.innerHTML='<div style="padding:32px 16px;max-width:560px">'
+      +'<h2 style="font-size:24px;font-weight:800;margin-bottom:24px">Seus dados</h2>'
+      +mkF("order-name","Nome completo *","text")
+      +mkF("order-email","E-mail *","email")
+      +mkF("order-phone","WhatsApp","text")
       +mkTA("order-obs","Observacoes")
-      +'<div style="display:flex;gap:12px;margin-top:24px">'
+      +'<div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">'
       +'<button class="btn-o" onclick="renderCart(\'list\')">Voltar</button>'
-      +'<button class="btn-p" onclick="submitOrder()">Enviar pedido</button>'
+      +'<button class="btn-p btn-full-mob" onclick="submitOrder()">Enviar pedido</button>'
       +'</div></div>';
     return;
   }
   if(cart.length===0){
-    el.innerHTML='<div style="padding:60px clamp(20px,6vw,100px);text-align:center">'
-      +'<div style="font-size:64px;margin-bottom:16px">🛒</div>'
-      +'<p style="color:#8a8a9a;font-family:\'DM Mono\',monospace">Carrinho vazio.</p>'
-      +'<button class="btn-p" style="margin-top:24px" onclick="goTo(\'servicos\')">Ver servicos</button></div>';
+    el.innerHTML='<div style="padding:60px 16px;text-align:center">'
+      +'<div style="font-size:52px;margin-bottom:14px">🛒</div>'
+      +'<p style="color:#8a8a9a;font-family:\'DM Mono\',monospace;margin-bottom:20px">Carrinho vazio.</p>'
+      +'<button class="btn-p" onclick="goTo(\'servicos\')">Ver servicos</button></div>';
     return;
   }
   var items="";
   for(var i=0;i<cart.length;i++){
     var c=cart[i];
-    items+='<div style="background:#0d0f15;border:1px solid #1e2230;padding:24px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">'
-      +'<div style="display:flex;gap:20px;align-items:center">'
-      +'<span style="font-size:32px">'+c.icon+'</span>'
-      +'<div><div style="font-weight:700">'+c.title+'</div>'
-      +'<div style="color:#00ff88;font-weight:700">R$ '+c.price.toLocaleString("pt-BR")+'</div></div></div>'
-      +'<button style="background:none;border:1px solid #ff446640;color:#ff4466;padding:6px 14px;cursor:pointer;font-family:\'Syne\',sans-serif;font-size:12px" onclick="removeFromCart('+c.id+')">remover</button>'
+    items+='<div style="background:#0d0f15;border:1px solid #1e2230;padding:16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:12px">'
+      +'<div style="display:flex;gap:14px;align-items:center;min-width:0">'
+      +'<span style="font-size:28px;flex-shrink:0">'+c.icon+'</span>'
+      +'<div style="min-width:0"><div style="font-weight:700;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+c.title+'</div>'
+      +'<div style="color:#00ff88;font-weight:700;font-size:14px">R$ '+c.price.toLocaleString("pt-BR")+'</div></div></div>'
+      +'<button style="background:none;border:1px solid #ff446640;color:#ff4466;padding:6px 12px;cursor:pointer;font-family:\'Syne\',sans-serif;font-size:11px;flex-shrink:0" onclick="removeFromCart('+c.id+')">✕</button>'
       +'</div>';
   }
-  el.innerHTML='<div style="padding:60px clamp(20px,6vw,100px)">'
-    +'<h2 style="font-size:32px;font-weight:800;margin-bottom:32px">Carrinho ('+cart.length+')</h2>'
-    +'<div style="display:grid;grid-template-columns:1fr 280px;gap:40px;align-items:start">'
+  el.innerHTML='<div style="padding:32px 16px">'
+    +'<h2 style="font-size:24px;font-weight:800;margin-bottom:20px">Carrinho ('+cart.length+')</h2>'
+    +'<div class="cart-grid" style="display:grid;grid-template-columns:1fr 260px;gap:24px;align-items:start">'
     +'<div>'+items+'</div>'
-    +'<div style="background:#0d0f15;border:1px solid #1e2230;padding:28px">'
-    +'<div style="font-size:13px;color:#8a8a9a;margin-bottom:8px;font-family:\'DM Mono\',monospace">Total estimado</div>'
-    +'<div style="font-size:32px;font-weight:800;color:#00ff88;margin-bottom:24px">R$ '+total.toLocaleString("pt-BR")+'</div>'
-    +'<p style="font-size:11px;color:#8a8a9a;font-family:\'DM Mono\',monospace;line-height:1.6;margin-bottom:20px">Valores a confirmar apos analise.</p>'
-    +'<button class="btn-p" style="width:100%" onclick="renderCart(\'form\')">Solicitar orcamento</button>'
+    +'<div style="background:#0d0f15;border:1px solid #1e2230;padding:20px">'
+    +'<div style="font-size:12px;color:#8a8a9a;margin-bottom:6px;font-family:\'DM Mono\'">Total estimado</div>'
+    +'<div style="font-size:28px;font-weight:800;color:#00ff88;margin-bottom:16px">R$ '+total.toLocaleString("pt-BR")+'</div>'
+    +'<p style="font-size:11px;color:#8a8a9a;font-family:\'DM Mono\';line-height:1.6;margin-bottom:16px">Valores confirmados apos analise.</p>'
+    +'<button class="btn-p" style="width:100%;font-size:12px" onclick="renderCart(\'form\')">Solicitar orcamento</button>'
     +'</div></div></div>';
 }
 
@@ -391,154 +491,160 @@ function submitOrder(){
   var name=gv("order-name"),email=gv("order-email"),phone=gv("order-phone"),obs=gv("order-obs");
   if(!name||!email){showToast("Preencha nome e email!","#ff4466");return;}
   var total=0; for(var i=0;i<cart.length;i++) total+=cart[i].price;
-  var order={id:Date.now(),name:name,email:email,phone:phone,obs:obs,items:cart.slice(),total:total,status:"Aguardando",date:new Date().toLocaleString("pt-BR")};
+  var oid=Date.now();
+  var order={id:oid,name:name,email:email,phone:phone,obs:obs,items:cart.slice(),total:total,status:"Aguardando",date:new Date().toLocaleString("pt-BR"),chatId:"order_"+oid};
   orders.push(order); saveLS("ds_orders",orders);
-  // also save to firebase if available
-  if(window._fbReady){
-    window._fbPush(window._fbRef(window._fbDB,"orders"), order);
-  }
-  cart=[]; updBadge(); renderCart("done");
+  if(window._fbReady) window._fbPush(window._fbRef(window._fbDB,"orders"),order);
+  // pre-load client name for order chat
+  localStorage.setItem("order_chat_name_"+oid, name);
+  cart=[]; updBadge(); renderCart("done", oid);
   showToast("Pedido enviado!");
 }
 
-/* ============================================================
-   CHAT — Firebase realtime
-============================================================ */
-var chatOpen = false;
-var chatUser = localStorage.getItem("chat_name") || "";
-var chatSession = localStorage.getItem("chat_session") || "";
-var chatListening = false;
-var lastMsgCount = 0;
-var adminChatListening = false;
+/* ── ORDER CHAT ── */
+var orderChatListening={};
 
-function makeChatSession(){
+function clientColor(name){
+  // generate consistent color from name
+  var palette=["#ff6b6b","#ffa94d","#ffe066","#69db7c","#38d9a9","#4dabf7","#da77f2","#f783ac","#a9e34b","#63e6be"];
+  var hash=0;
+  for(var i=0;i<name.length;i++) hash=(hash*31+name.charCodeAt(i))&0xffffffff;
+  return palette[Math.abs(hash)%palette.length];
+}
+
+function sendOrderChat(oid){
+  if(!window._fbReady){showToast("Aguarde...","#ffaa00");return;}
+  var text=gv("order-chat-inp"); if(!text) return;
+  var name=localStorage.getItem("order_chat_name_"+oid)||"Cliente";
+  var color=clientColor(name);
+  window._fbPush(window._fbRef(window._fbDB,"order_chats/order_"+oid+"/messages"),{
+    from:"client",name:name,color:color,text:text,time:new Date().toLocaleString("pt-BR"),ts:Date.now()
+  });
+  var inp=document.getElementById("order-chat-inp"); if(inp) inp.value="";
+}
+
+function startOrderChatListen(oid){
+  var key="order_"+oid;
+  if(orderChatListening[key]||!window._fbReady) return;
+  orderChatListening[key]=true;
+  window._fbOnValue(window._fbRef(window._fbDB,"order_chats/"+key+"/messages"),function(snap){
+    var msgs=[];
+    if(snap.exists()) snap.forEach(function(c){msgs.push(c.val());});
+    var el=document.getElementById("order-chat-msgs"); if(!el) return;
+    if(msgs.length===0) return;
+    var h="";
+    for(var i=0;i<msgs.length;i++){
+      var m=msgs[i], isClient=m.from==="client";
+      var cls=isClient?"msg-client":"msg-dev";
+      h+='<div class="'+cls+'"><div>'+m.text+'</div><div class="msg-time">'+m.time+'</div></div>';
+    }
+    el.innerHTML=h; el.scrollTop=el.scrollHeight;
+  });
+}
+
+/* ── CHAT ── */
+var chatOpen=false, chatUser=localStorage.getItem("chat_name")||"";
+var chatSession=localStorage.getItem("chat_session")||"";
+var chatListening=false, lastMsgCount=0, adminChatListening=false;
+
+function makeSess(){
   if(!chatSession){
-    chatSession = "user_" + Date.now() + "_" + Math.random().toString(36).substr(2,6);
-    localStorage.setItem("chat_session", chatSession);
+    chatSession="u_"+Date.now()+"_"+Math.random().toString(36).substr(2,5);
+    localStorage.setItem("chat_session",chatSession);
   }
 }
 
 function toggleChat(){
-  chatOpen = !chatOpen;
-  var box = document.getElementById("chat-box");
+  chatOpen=!chatOpen;
+  var box=document.getElementById("chat-box");
   if(chatOpen){
     box.classList.add("open");
-    document.getElementById("chat-notif").style.display = "none";
-    if(!chatUser){
-      renderChatNameScreen();
-    } else {
-      renderChatMsgs();
-      startListeningChat();
-    }
+    document.getElementById("chat-notif").style.display="none";
+    if(!chatUser) renderChatName();
+    else{renderChatMsgs();startListenChat();}
   } else {
     box.classList.remove("open");
   }
 }
 
-function renderChatNameScreen(){
-  document.getElementById("chat-body").innerHTML =
+function renderChatName(){
+  document.getElementById("chat-body").innerHTML=
     '<div id="chat-name-screen">'
-    +'<p style="font-size:13px;color:#8a8a9a;font-family:\'DM Mono\',monospace;line-height:1.6">Ola! Como posso chamar voce?</p>'
-    +'<input class="inp" id="chat-name-inp" placeholder="Seu nome..." style="font-size:13px">'
-    +'<input class="inp" id="chat-email-inp" placeholder="Seu email (opcional)..." style="font-size:13px">'
-    +'<button class="btn-p" style="width:100%;font-size:13px" onclick="setChatUser()">Iniciar conversa</button>'
+    +'<p style="font-size:13px;color:#8a8a9a;font-family:\'DM Mono\';line-height:1.6">Ola! Como posso te chamar?</p>'
+    +'<input class="inp" id="cn-name" placeholder="Seu nome...">'
+    +'<input class="inp" id="cn-email" placeholder="Email (opcional)...">'
+    +'<button class="btn-p" style="width:100%;font-size:13px" onclick="setChatUser()">Comecar</button>'
     +'</div>';
-  setTimeout(function(){ var el=document.getElementById("chat-name-inp"); if(el) el.focus(); },100);
+  setTimeout(function(){var e=document.getElementById("cn-name");if(e)e.focus();},100);
 }
 
 function setChatUser(){
-  var name = gv("chat-name-inp");
-  if(!name){showToast("Digite seu nome!","#ff4466");return;}
-  chatUser = name;
-  var email = gv("chat-email-inp");
-  localStorage.setItem("chat_name", chatUser);
-  makeChatSession();
-  // save session info to firebase
-  if(window._fbReady){
-    window._fbSet(window._fbRef(window._fbDB,"sessions/"+chatSession), {name:chatUser, email:email, started:new Date().toLocaleString("pt-BR")});
-  }
-  renderChatMsgs();
-  startListeningChat();
+  var n=gv("cn-name"); if(!n){showToast("Digite seu nome!","#ff4466");return;}
+  chatUser=n; localStorage.setItem("chat_name",chatUser);
+  var em=gv("cn-email"); makeSess();
+  if(window._fbReady) window._fbSet(window._fbRef(window._fbDB,"sessions/"+chatSession),{name:chatUser,email:em,started:new Date().toLocaleString("pt-BR")});
+  renderChatMsgs(); startListenChat();
 }
 
 function renderChatMsgs(){
-  document.getElementById("chat-body").innerHTML =
+  document.getElementById("chat-body").innerHTML=
     '<div id="chat-msgs"></div>'
     +'<div id="chat-form">'
-    +'<input id="chat-input" class="inp" placeholder="Digite sua mensagem..." autocomplete="off">'
+    +'<input id="chat-input" class="inp" placeholder="Mensagem..." autocomplete="off">'
     +'<button id="chat-send" onclick="sendChatMsg()">➤</button>'
     +'</div>';
-  var inp = document.getElementById("chat-input");
-  if(inp) inp.addEventListener("keydown", function(e){ if(e.key==="Enter") sendChatMsg(); });
+  var inp=document.getElementById("chat-input");
+  if(inp) inp.addEventListener("keydown",function(e){if(e.key==="Enter")sendChatMsg();});
 }
 
 function sendChatMsg(){
-  if(!window._fbReady){showToast("Conectando...","#ffaa00");return;}
-  makeChatSession();
-  var text = gv("chat-input");
-  if(!text) return;
-  var msg = {from:"client", name:chatUser, text:text, time:new Date().toLocaleString("pt-BR"), ts:Date.now()};
-  window._fbPush(window._fbRef(window._fbDB,"chats/"+chatSession+"/messages"), msg);
+  if(!window._fbReady){showToast("Aguarde...","#ffaa00");return;}
+  makeSess(); var text=gv("chat-input"); if(!text) return;
+  window._fbPush(window._fbRef(window._fbDB,"chats/"+chatSession+"/messages"),{from:"client",name:chatUser,text:text,time:new Date().toLocaleString("pt-BR"),ts:Date.now()});
   var inp=document.getElementById("chat-input"); if(inp) inp.value="";
 }
 
-function startListeningChat(){
-  if(chatListening || !window._fbReady) return;
-  chatListening = true;
-  makeChatSession();
-  window._fbOnValue(window._fbRef(window._fbDB,"chats/"+chatSession+"/messages"), function(snap){
+function startListenChat(){
+  if(chatListening||!window._fbReady) return;
+  chatListening=true; makeSess();
+  window._fbOnValue(window._fbRef(window._fbDB,"chats/"+chatSession+"/messages"),function(snap){
     var msgs=[];
-    if(snap.exists()){
-      snap.forEach(function(child){ msgs.push(child.val()); });
+    if(snap.exists()) snap.forEach(function(c){msgs.push(c.val());});
+    var el=document.getElementById("chat-msgs");
+    if(!el) return;
+    if(msgs.length===0){el.innerHTML='<div style="text-align:center;color:#8a8a9a;font-family:\'DM Mono\';font-size:12px;padding:20px">Ola '+chatUser+'! Me manda sua mensagem.</div>';return;}
+    var h="";
+    for(var i=0;i<msgs.length;i++){
+      var m=msgs[i], cls=m.from==="client"?"msg-client":"msg-dev";
+      h+='<div class="'+cls+'"><div>'+m.text+'</div><div class="msg-time">'+m.time+'</div></div>';
     }
-    renderChatMessages(msgs);
-    // notify new dev message
-    if(msgs.length > lastMsgCount && lastMsgCount > 0){
-      var last = msgs[msgs.length-1];
-      if(last.from==="dev" && !chatOpen){
-        document.getElementById("chat-notif").style.display="block";
-        showToast("Nova resposta do dev!", "#00ff88");
-      }
+    el.innerHTML=h; el.scrollTop=el.scrollHeight;
+    if(msgs.length>lastMsgCount&&lastMsgCount>0){
+      var last=msgs[msgs.length-1];
+      if(last.from==="dev"&&!chatOpen){document.getElementById("chat-notif").style.display="block";showToast("Nova resposta!");}
     }
-    lastMsgCount = msgs.length;
+    lastMsgCount=msgs.length;
   });
 }
 
-function renderChatMessages(msgs){
-  var el = document.getElementById("chat-msgs");
-  if(!el) return;
-  var html="";
-  if(msgs.length===0){
-    html='<div style="text-align:center;color:#8a8a9a;font-family:\'DM Mono\',monospace;font-size:12px;padding:20px">Ola '+chatUser+'! Manda sua mensagem.</div>';
-  }
-  for(var i=0;i<msgs.length;i++){
-    var m=msgs[i];
-    var cls = m.from==="client" ? "msg-client" : "msg-dev";
-    html+='<div class="'+cls+'"><div>'+m.text+'</div><div class="msg-time">'+m.time+'</div></div>';
-  }
-  el.innerHTML=html;
-  el.scrollTop=el.scrollHeight;
-}
+/* ── ADMIN ── */
+var allSessions={}, openSession=null;
 
-/* ============================================================
-   ADMIN
-============================================================ */
 function renderAdmin(){
   var el=document.getElementById("pg-admin");
   if(!adminLogged){
-    el.innerHTML='<div style="min-height:80vh;display:flex;align-items:center;justify-content:center;padding:20px">'
-      +'<div style="background:#0d0f15;border:1px solid #1e2230;padding:48px 40px;width:100%;max-width:380px;animation:fadeUp .5s">'
-      +'<div style="text-align:center;margin-bottom:32px">'
-      +'<div style="font-size:40px;margin-bottom:12px">🔒</div>'
-      +'<h2 style="font-weight:800;font-size:22px">Area Admin</h2>'
-      +'<p style="color:#8a8a9a;font-size:12px;font-family:\'DM Mono\',monospace;margin-top:6px">Acesso restrito</p></div>'
-      +mkField("adm-user","Usuario","text")
-      +mkField("adm-pass","Senha","password")
-      +'<div id="adm-err" style="color:#ff4466;font-size:12px;font-family:\'DM Mono\',monospace;margin-bottom:12px;display:none">Usuario ou senha incorretos</div>'
-      +'<button class="btn-p" style="width:100%;margin-top:8px" onclick="doLogin()">Entrar</button>'
+    el.innerHTML='<div style="min-height:80vh;display:flex;align-items:center;justify-content:center;padding:16px">'
+      +'<div class="adm-form" style="background:#0d0f15;border:1px solid #1e2230;padding:36px 28px;width:100%;max-width:360px;animation:fadeUp .5s">'
+      +'<div style="text-align:center;margin-bottom:28px">'
+      +'<div style="font-size:36px;margin-bottom:10px">🔒</div>'
+      +'<h2 style="font-weight:800;font-size:20px">Area Admin</h2></div>'
+      +mkF("adm-user","Usuario","text")
+      +mkF("adm-pass","Senha","password")
+      +'<div id="adm-err" style="color:#ff4466;font-size:12px;font-family:\'DM Mono\';margin-bottom:10px;display:none">Usuario ou senha incorretos</div>'
+      +'<button class="btn-p" style="width:100%;margin-top:6px" onclick="doLogin()">Entrar</button>'
       +'</div></div>';
     setTimeout(function(){
-      var pu=document.getElementById("adm-user"), pp=document.getElementById("adm-pass");
+      var pu=document.getElementById("adm-user"),pp=document.getElementById("adm-pass");
       if(pu) pu.addEventListener("keydown",function(e){if(e.key==="Enter")doLogin();});
       if(pp) pp.addEventListener("keydown",function(e){if(e.key==="Enter")doLogin();});
     },50);
@@ -548,37 +654,29 @@ function renderAdmin(){
 }
 
 function doLogin(){
-  var u=gv("adm-user"), p=gv("adm-pass");
-  if(u===ADMIN_USER&&p===ADMIN_PASS){
-    adminLogged=true; updAdminBtn(); renderDash();
-    startAdminChatListener();
-  } else {
-    var e=document.getElementById("adm-err"); if(e) e.style.display="block";
-  }
+  var u=gv("adm-user"),p=gv("adm-pass");
+  if(u===ADMIN_USER&&p===ADMIN_PASS){adminLogged=true;updAdminBtn();renderDash();startAdminListen();}
+  else{var e=document.getElementById("adm-err");if(e)e.style.display="block";}
 }
-function doLogout(){ adminLogged=false; updAdminBtn(); renderAdmin(); }
+function doLogout(){adminLogged=false;_adminUnlocked=false;updAdminBtn();renderAdmin();goTo('home');}
 
 function renderDash(){
   var el=document.getElementById("pg-admin");
   var pending=0; for(var i=0;i<orders.length;i++) if(orders[i].status==="Aguardando") pending++;
-
-  var cMsgs=adminTab==="chat"?"#00ff88":"#8a8a9a";
-  var cOrd =adminTab==="orders"?"#00ff88":"#8a8a9a";
-  var bMsgs=adminTab==="chat"?"2px solid #00ff88":"2px solid transparent";
-  var bOrd =adminTab==="orders"?"2px solid #00ff88":"2px solid transparent";
-
-  el.innerHTML='<div style="padding:40px clamp(20px,5vw,80px)">'
-    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;flex-wrap:wrap;gap:16px">'
-    +'<div><h2 style="font-size:28px;font-weight:800">Painel Admin 🔓</h2>'
-    +'<p style="color:#8a8a9a;font-family:\'DM Mono\',monospace;font-size:12px">Bem-vindo, Matheus!</p></div>'
-    +'<button class="btn-o" onclick="doLogout()">Sair</button></div>'
-    +'<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;margin-bottom:32px">'
-    +'<div style="background:#0d0f15;border:1px solid #1e2230;padding:20px 24px"><div style="font-size:24px;margin-bottom:8px">🛒</div><div style="font-size:26px;font-weight:800">'+orders.length+'</div><div style="font-size:11px;color:#8a8a9a;text-transform:uppercase;letter-spacing:1px;font-family:\'DM Mono\',monospace">Pedidos</div></div>'
-    +'<div style="background:#0d0f15;border:1px solid #1e2230;padding:20px 24px"><div style="font-size:24px;margin-bottom:8px">⏳</div><div style="font-size:26px;font-weight:800;color:'+(pending>0?"#ffaa00":"#e8e0d0")+'">'+pending+'</div><div style="font-size:11px;color:#8a8a9a;text-transform:uppercase;letter-spacing:1px;font-family:\'DM Mono\',monospace">Pendentes</div></div>'
+  var cC=adminTab==="chat"?"#00ff88":"#8a8a9a", cO=adminTab==="orders"?"#00ff88":"#8a8a9a";
+  var bC=adminTab==="chat"?"2px solid #00ff88":"2px solid transparent", bO=adminTab==="orders"?"2px solid #00ff88":"2px solid transparent";
+  el.innerHTML='<div style="padding:28px 16px">'
+    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px">'
+    +'<div><h2 style="font-size:22px;font-weight:800">Painel Admin 🔓</h2>'
+    +'<p style="color:#8a8a9a;font-family:\'DM Mono\';font-size:11px">Bem-vindo, Matheus!</p></div>'
+    +'<button class="btn-o" style="font-size:11px;padding:8px 16px" onclick="doLogout()">Sair</button></div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">'
+    +'<div style="background:#0d0f15;border:1px solid #1e2230;padding:16px"><div style="font-size:20px;margin-bottom:6px">🛒</div><div style="font-size:22px;font-weight:800">'+orders.length+'</div><div style="font-size:10px;color:#8a8a9a;text-transform:uppercase;letter-spacing:1px;font-family:\'DM Mono\'">Pedidos</div></div>'
+    +'<div style="background:#0d0f15;border:1px solid #1e2230;padding:16px"><div style="font-size:20px;margin-bottom:6px">⏳</div><div style="font-size:22px;font-weight:800;color:'+(pending>0?"#ffaa00":"#e8e0d0")+'">'+pending+'</div><div style="font-size:10px;color:#8a8a9a;text-transform:uppercase;letter-spacing:1px;font-family:\'DM Mono\'">Pendentes</div></div>'
     +'</div>'
-    +'<div style="display:flex;border-bottom:1px solid #1e2230;margin-bottom:32px">'
-    +'<button style="background:none;border:none;font-family:\'Syne\',sans-serif;font-weight:700;font-size:13px;padding:12px 24px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;color:'+cMsgs+';border-bottom:'+bMsgs+'" onclick="switchTab(\'chat\')">💬 Chats ao vivo</button>'
-    +'<button style="background:none;border:none;font-family:\'Syne\',sans-serif;font-weight:700;font-size:13px;padding:12px 24px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;color:'+cOrd+';border-bottom:'+bOrd+'" onclick="switchTab(\'orders\')">🛒 Pedidos</button>'
+    +'<div style="display:flex;border-bottom:1px solid #1e2230;margin-bottom:24px;overflow-x:auto">'
+    +'<button style="background:none;border:none;font-family:\'Syne\';font-weight:700;font-size:12px;padding:10px 18px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;color:'+cC+';border-bottom:'+bC+';white-space:nowrap" onclick="switchTab(\'chat\')">💬 Chats</button>'
+    +'<button style="background:none;border:none;font-family:\'Syne\';font-weight:700;font-size:12px;padding:10px 18px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;color:'+cO+';border-bottom:'+bO+';white-space:nowrap" onclick="switchTab(\'orders\')">🛒 Pedidos</button>'
     +'</div>'
     +'<div id="tab-content"></div></div>';
   renderTab();
@@ -586,148 +684,191 @@ function renderDash(){
 
 function switchTab(t){adminTab=t;renderDash();}
 
-/* Admin chat list */
-var allSessions = {};
-var openSession = null;
-
-function startAdminChatListener(){
+function startAdminListen(){
   if(adminChatListening||!window._fbReady) return;
   adminChatListening=true;
-  window._fbOnValue(window._fbRef(window._fbDB,"chats"), function(snap){
+  // listen to regular chats
+  window._fbOnValue(window._fbRef(window._fbDB,"chats"),function(snap){
     allSessions={};
-    if(snap.exists()){
-      snap.forEach(function(child){
-        var sid=child.key;
-        var msgs=[];
-        var msgsSnap=child.child("messages");
-        msgsSnap.forEach(function(m){ msgs.push(m.val()); });
-        allSessions[sid]={messages:msgs};
-      });
-    }
+    if(snap.exists()) snap.forEach(function(child){
+      var msgs=[]; child.child("messages").forEach(function(m){msgs.push(m.val());});
+      allSessions[child.key]={messages:msgs, type:"chat"};
+    });
     if(adminTab==="chat") renderTab();
-    updAdminBtn();
+  });
+  // listen to order chats
+  window._fbOnValue(window._fbRef(window._fbDB,"order_chats"),function(snap){
+    if(snap.exists()) snap.forEach(function(child){
+      var msgs=[]; child.child("messages").forEach(function(m){msgs.push(m.val());});
+      allSessions[child.key]={messages:msgs, type:"order"};
+    });
+    if(adminTab==="chat") renderTab();
   });
 }
 
 function renderTab(){
-  var el=document.getElementById("tab-content");
-  if(!el) return;
+  var el=document.getElementById("tab-content"); if(!el) return;
 
   if(adminTab==="chat"){
-    if(!window._fbReady){el.innerHTML='<p style="color:#8a8a9a;font-family:\'DM Mono\',monospace">Conectando ao Firebase...</p>';return;}
+    if(!window._fbReady){el.innerHTML='<p style="color:#8a8a9a;font-family:\'DM Mono\';font-size:13px">Conectando...</p>';return;}
+    if(openSession&&allSessions[openSession]){renderAdminThread(openSession);return;}
     var keys=Object.keys(allSessions);
-    if(keys.length===0){el.innerHTML='<p style="color:#8a8a9a;font-family:\'DM Mono\',monospace">Nenhum chat ainda. Aguarde clientes.</p>';return;}
-
-    if(openSession && allSessions[openSession]){
-      renderAdminChatThread(openSession);
-      return;
-    }
-
-    // list all sessions
-    var html='';
+    if(keys.length===0){el.innerHTML='<p style="color:#8a8a9a;font-family:\'DM Mono\';font-size:13px">Nenhum chat ainda.</p>';return;}
+    var h="";
     for(var i=0;i<keys.length;i++){
-      var sid=keys[i];
-      var sess=allSessions[sid];
-      var msgs=sess.messages;
-      var lastName = msgs.length>0 ? msgs[0].name : sid;
-      var lastMsg  = msgs.length>0 ? msgs[msgs.length-1].text : "";
-      var unread   = 0;
-      for(var j=0;j<msgs.length;j++) if(msgs[j].from==="client"&&!msgs[j].read) unread++;
-      html+='<div style="background:#0d0f15;border:1px solid '+(unread>0?"#00ff8833":"#1e2230")+';padding:20px;margin-bottom:12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center" onclick="openChatSession(\''+sid+'\')">'
-        +'<div>'
-        +'<div style="font-weight:700;margin-bottom:4px">'+lastName+(unread>0?'<span style="margin-left:8px;background:#ff4466;color:#fff;font-size:10px;padding:2px 7px;border-radius:10px">'+unread+' novo</span>':"")+'</div>'
-        +'<div style="font-size:12px;color:#8a8a9a;font-family:\'DM Mono\',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px">'+lastMsg+'</div>'
-        +'</div>'
-        +'<span style="color:#00ff88;font-size:18px">></span>'
-        +'</div>';
+      var sid=keys[i], sess=allSessions[sid], msgs=sess.messages;
+      var name=msgs.length>0?msgs[0].name:sid;
+      var last=msgs.length>0?msgs[msgs.length-1].text:"";
+      var color=clientColor(name);
+      var isOrder=sess.type==="order";
+      var badge=isOrder?'<span style="background:#00aaff20;color:#00aaff;font-size:9px;font-weight:700;padding:2px 6px;letter-spacing:1px;text-transform:uppercase;margin-left:6px">PEDIDO</span>':"";
+      h+='<div style="background:#0d0f15;border:1px solid #1e2230;border-left:3px solid '+color+';padding:14px 16px;margin-bottom:10px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px" onclick="openChatSess(\''+sid+'\')">'
+        +'<div style="display:flex;align-items:center;gap:10px;min-width:0">'
+        +'<div style="width:32px;height:32px;border-radius:50%;background:'+color+'22;border:2px solid '+color+';display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:'+color+';flex-shrink:0">'+name.charAt(0).toUpperCase()+'</div>'
+        +'<div style="min-width:0">'
+        +'<div style="font-weight:700;font-size:13px;margin-bottom:3px">'+name+badge+'</div>'
+        +'<div style="font-size:11px;color:#8a8a9a;font-family:\'DM Mono\';white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+last+'</div>'
+        +'</div></div>'
+        +'<span style="color:'+color+';flex-shrink:0;font-size:18px">›</span></div>';
     }
-    el.innerHTML=html;
-    return;
+    el.innerHTML=h; return;
   }
 
   if(adminTab==="orders"){
-    if(orders.length===0){el.innerHTML='<p style="color:#8a8a9a;font-family:\'DM Mono\',monospace">Nenhum pedido ainda.</p>';return;}
-    var html="";
-    var rev=orders.slice().reverse();
+    if(orders.length===0){el.innerHTML='<p style="color:#8a8a9a;font-family:\'DM Mono\';font-size:13px">Nenhum pedido ainda.</p>';return;}
+    var h="", rev=orders.slice().reverse();
     for(var i=0;i<rev.length;i++){
-      var o=rev[i];
-      var itags="";
-      if(o.items) for(var j=0;j<o.items.length;j++) itags+='<span class="tag">'+o.items[j].icon+' '+o.items[j].title+'</span> ';
-      var sc=o.status==="Aguardando"?"color:#ffaa00;border:1px solid #ffaa0044":"color:#00ff88;border:1px solid #00ff8844";
-      html+='<div style="background:#0d0f15;border:1px solid #1e2230;padding:24px;margin-bottom:16px">'
-        +'<div style="display:flex;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px">'
-        +'<div><div style="font-weight:700;font-size:16px">'+o.name+'</div>'
-        +'<div style="color:#8a8a9a;font-size:12px;font-family:\'DM Mono\',monospace">'+o.email+(o.phone?" - "+o.phone:"")+'</div></div>'
-        +'<div style="text-align:right"><div style="font-size:22px;font-weight:800;color:#00ff88">R$ '+(o.total||0).toLocaleString("pt-BR")+'</div>'
-        +'<div style="font-size:10px;color:#8a8a9a;font-family:\'DM Mono\',monospace">'+o.date+'</div></div></div>'
-        +'<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">'+itags+'</div>'
-        +(o.obs?'<p style="font-size:13px;color:#8a8a9a;font-family:\'DM Mono\',monospace;border-top:1px solid #1e2230;padding-top:12px">'+o.obs+'</p>':"")
-        +'<div style="margin-top:12px"><span style="font-size:11px;font-family:\'DM Mono\',monospace;padding:3px 10px;'+sc+'">● '+o.status+'</span></div>'
+      var o=rev[i], itags="";
+      if(o.items) for(var j=0;j<o.items.length;j++) itags+='<span style="background:#00ff8815;color:#00ff88;font-size:10px;font-weight:700;letter-spacing:1px;padding:2px 8px;text-transform:uppercase;margin-right:4px">'+o.items[j].icon+' '+o.items[j].title+'</span>';
+      var statuses=["Aguardando","Em producao","Entregue"];
+      var sc=o.status==="Aguardando"?"color:#ffaa00;border-color:#ffaa0044":o.status==="Em producao"?"color:#00aaff;border-color:#00aaff44":"color:#00ff88;border-color:#00ff8844";
+      var nextStatus=statuses[(statuses.indexOf(o.status)+1)%statuses.length];
+      var btnColor=o.status==="Aguardando"?"#ffaa00":o.status==="Em producao"?"#00aaff":"#00ff88";
+      h+='<div style="background:#0d0f15;border:1px solid #1e2230;padding:16px;margin-bottom:12px">'
+        +'<div style="display:flex;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">'
+        +'<div><div style="font-weight:700;font-size:15px">'+o.name+'</div>'
+        +'<div style="color:#8a8a9a;font-size:11px;font-family:\'DM Mono\'">'+o.email+(o.phone?" · "+o.phone:"")+'</div></div>'
+        +'<div style="text-align:right"><div style="font-size:18px;font-weight:800;color:#00ff88">R$ '+(o.total||0).toLocaleString("pt-BR")+'</div>'
+        +'<div style="font-size:10px;color:#8a8a9a;font-family:\'DM Mono\'">'+o.date+'</div></div></div>'
+        +'<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">'+itags+'</div>'
+        +(o.obs?'<p style="font-size:12px;color:#8a8a9a;font-family:\'DM Mono\';border-top:1px solid #1e2230;padding-top:10px;margin-bottom:10px">'+o.obs+'</p>':"")
+        +'<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:10px">'
+        +'<span style="font-size:11px;font-family:\'DM Mono\';padding:4px 10px;border:1px solid;'+sc+'">● '+o.status+'</span>'
+        +(o.status!=="Entregue"?'<button onclick="updateOrderStatus('+o.id+',\''+nextStatus+'\')" style="background:none;border:1px solid '+btnColor+'40;color:'+btnColor+';font-family:\'Syne\';font-size:11px;font-weight:700;padding:5px 12px;cursor:pointer;letter-spacing:1px;text-transform:uppercase">→ '+nextStatus+'</button>':"")
+        +'</div>'
         +'</div>';
     }
-    el.innerHTML=html;
+    el.innerHTML=h;
   }
 }
 
-function openChatSession(sid){
-  openSession=sid;
+function openChatSess(sid){openSession=sid;renderTab();}
+
+function renderAdminThread(sid){
+  var el=document.getElementById("tab-content");
+  var sess=allSessions[sid]; if(!sess){el.innerHTML="";return;}
+  var msgs=sess.messages, name=msgs.length>0?msgs[0].name:sid;
+  var color=clientColor(name);
+  var isOrder=sess.type==="order";
+  var dbPath=isOrder?"order_chats/"+sid+"/messages":"chats/"+sid+"/messages";
+  var h="";
+  for(var i=0;i<msgs.length;i++){
+    var m=msgs[i], isClient=m.from==="client";
+    var cls=isClient?"msg-client":"msg-dev";
+    var extra=isClient?"background:"+color+"18;border:1px solid "+color+"33":"";
+    h+='<div class="'+cls+'" style="'+extra+'"><div>'+m.text+'</div><div class="msg-time">'+m.time+'</div></div>';
+  }
+  el.innerHTML='<button class="btn-o" style="font-size:11px;padding:7px 14px;margin-bottom:16px" onclick="openSession=null;renderTab()">← Voltar</button>'
+    +'<div style="background:#0d0f15;border:1px solid #1e2230;border-top:3px solid '+color+';display:flex;flex-direction:column">'
+    +'<div style="padding:14px 16px;border-bottom:1px solid #1e2230;display:flex;align-items:center;gap:10px">'
+    +'<div style="width:32px;height:32px;border-radius:50%;background:'+color+'22;border:2px solid '+color+';display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:'+color+';flex-shrink:0">'+name.charAt(0).toUpperCase()+'</div>'
+    +'<div><div style="font-weight:700;font-size:14px">'+name+'</div>'
+    +(isOrder?'<div style="font-size:10px;color:#00aaff;font-family:\'DM Mono\';letter-spacing:1px">ORCAMENTO</div>':'<div style="font-size:10px;color:#8a8a9a;font-family:\'DM Mono\'">Chat geral</div>')
+    +'</div></div>'
+    +'<div id="adm-msgs" style="padding:14px;display:flex;flex-direction:column;gap:8px;max-height:320px;overflow-y:auto">'+h+'</div>'
+    +'<div style="padding:10px;border-top:1px solid #1e2230;display:flex;gap:8px">'
+    +'<input id="adm-inp" class="inp" placeholder="Responder..." style="font-size:13px">'
+    +'<button style="font-size:12px;padding:10px 16px;flex-shrink:0;background:'+color+';color:#080a0f;border:none;font-family:\'Syne\';font-weight:700;cursor:pointer;letter-spacing:1px" onclick="sendAdminReply(\''+sid+'\',\''+dbPath+'\')">Enviar</button>'
+    +'</div></div>';
+  var box=document.getElementById("adm-msgs"); if(box) box.scrollTop=box.scrollHeight;
+  var inp=document.getElementById("adm-inp");
+  if(inp) inp.addEventListener("keydown",function(e){if(e.key==="Enter") sendAdminReply(sid,dbPath);});
+}
+
+function sendAdminReply(sid, dbPath){
+  if(!window._fbReady) return;
+  if(!dbPath) dbPath="chats/"+sid+"/messages";
+  var text=gv("adm-inp"); if(!text) return;
+  window._fbPush(window._fbRef(window._fbDB,dbPath),{from:"dev",name:"DevStudio",text:text,time:new Date().toLocaleString("pt-BR"),ts:Date.now()});
+  var inp=document.getElementById("adm-inp"); if(inp) inp.value="";
+}
+
+/* ── FIREBASE CALLBACK ── */
+window._fbReadyCb=function(){
+  if(chatUser&&chatSession) startListenChat();
+  if(adminLogged) startAdminListen();
+};
+
+/* ── SECRET ADMIN ACCESS ── */
+var _tapCount=0, _tapTimer=null, _adminUnlocked=false;
+function logoTap(){
+  if(_adminUnlocked){
+    goTo('admin');
+    return;
+  }
+  goTo('home');
+  _tapCount++;
+  clearTimeout(_tapTimer);
+  _tapTimer=setTimeout(function(){_tapCount=0;},1800);
+  if(_tapCount>=5){
+    _tapCount=0;
+    _adminUnlocked=true;
+    showToast("Acesso ativado — logo vira atalho!","#00ff88");
+  }
+}
+
+/* ── ORDER STATUS ── */
+function updateOrderStatus(oid, newStatus){
+  for(var i=0;i<orders.length;i++){
+    if(orders[i].id===oid){ orders[i].status=newStatus; break; }
+  }
+  saveLS("ds_orders",orders);
+  if(window._fbReady) window._fbPush(window._fbRef(window._fbDB,"orders_status"), {id:oid,status:newStatus,ts:Date.now()});
+  showToast("Status atualizado: "+newStatus,"#00ff88");
   renderTab();
 }
 
-function renderAdminChatThread(sid){
-  var el=document.getElementById("tab-content");
-  var sess=allSessions[sid];
-  if(!sess){el.innerHTML="";return;}
-  var msgs=sess.messages;
-  var name=msgs.length>0?msgs[0].name:sid;
-
-  var msgsHtml="";
-  for(var i=0;i<msgs.length;i++){
-    var m=msgs[i];
-    var cls=m.from==="client"?"msg-client":"msg-dev";
-    // mark as read if client msg
-    msgsHtml+='<div class="'+cls+'"><div>'+m.text+'</div><div class="msg-time">'+m.time+'</div></div>';
+/* ── COUNTDOWN ── */
+(function(){
+  // deadline = 48h from first visit, saved in localStorage
+  var key="ds_deadline";
+  var dl=localStorage.getItem(key);
+  if(!dl){
+    dl=Date.now()+(48*60*60*1000);
+    localStorage.setItem(key,dl);
   }
-
-  el.innerHTML='<button class="btn-o" style="font-size:12px;margin-bottom:20px" onclick="openSession=null;renderTab()">← Voltar aos chats</button>'
-    +'<div style="background:#0d0f15;border:1px solid #1e2230;display:flex;flex-direction:column">'
-    +'<div style="padding:16px 20px;border-bottom:1px solid #1e2230;font-weight:700">'+name+'</div>'
-    +'<div id="adm-chat-msgs" style="padding:16px;display:flex;flex-direction:column;gap:10px;max-height:400px;overflow-y:auto">'+msgsHtml+'</div>'
-    +'<div style="padding:12px;border-top:1px solid #1e2230;display:flex;gap:8px">'
-    +'<input id="adm-reply-inp" class="inp" placeholder="Digite sua resposta..." style="font-size:13px">'
-    +'<button class="btn-p" style="font-size:13px;padding:10px 20px" onclick="sendAdminReply(\''+sid+'\')">Enviar</button>'
-    +'</div></div>';
-
-  var box=document.getElementById("adm-chat-msgs");
-  if(box) box.scrollTop=box.scrollHeight;
-  var inp=document.getElementById("adm-reply-inp");
-  if(inp) inp.addEventListener("keydown",function(e){if(e.key==="Enter") sendAdminReply(sid);});
-}
-
-function sendAdminReply(sid){
-  if(!window._fbReady) return;
-  var text=gv("adm-reply-inp");
-  if(!text) return;
-  var msg={from:"dev",name:"DevStudio",text:text,time:new Date().toLocaleString("pt-BR"),ts:Date.now()};
-  window._fbPush(window._fbRef(window._fbDB,"chats/"+sid+"/messages"), msg);
-  var inp=document.getElementById("adm-reply-inp"); if(inp) inp.value="";
-}
-
-/* ============================================================
-   FIREBASE READY CALLBACK
-============================================================ */
-window._fbReadyCb = function(){
-  if(chatUser && chatSession){
-    startListeningChat();
+  dl=parseInt(dl);
+  function tick(){
+    var diff=dl-Date.now();
+    if(diff<=0){
+      var el=document.getElementById("countdown");
+      if(el) el.textContent="ENCERRADO";
+      var bar=document.getElementById("promo-bar");
+      if(bar) bar.style.display="none";
+      return;
+    }
+    var h=Math.floor(diff/3600000);
+    var m=Math.floor((diff%3600000)/60000);
+    var s=Math.floor((diff%60000)/1000);
+    var pad=function(n){return n<10?"0"+n:n;};
+    var el=document.getElementById("countdown");
+    if(el) el.textContent=pad(h)+":"+pad(m)+":"+pad(s);
+    setTimeout(tick,1000);
   }
-  if(adminLogged){
-    startAdminChatListener();
-  }
-};
+  tick();
+})();
 
-/* ============================================================
-   INIT
-============================================================ */
+/* ── INIT ── */
 renderHome();
 updAdminBtn();
 </script>
